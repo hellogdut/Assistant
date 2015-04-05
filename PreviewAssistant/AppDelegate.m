@@ -8,10 +8,9 @@
 
 #import "AppDelegate.h"
 #import "Utility.h"
-#import "KeyCode.h"
 #import "Assistant.h"
+#import "WindowController.h"
 @interface AppDelegate ()
-
 
 @property (weak) IBOutlet NSWindow *window;
 @end
@@ -22,17 +21,16 @@
 
 /* 记录变量 */
 
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     
-    CGEventMask eventMask = NSKeyDownMask |  NSFlagsChangedMask | NSKeyUpMask;
+    CGEventMask eventMask = NSKeyDownMask |  NSFlagsChangedMask;
+   // CGEventMask eventMask = NSKeyDownMask |  NSFlagsChangedMask | NSKeyUpMask;
     setHook(eventMask,myCallback);
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     
 }
-
 
 
 
