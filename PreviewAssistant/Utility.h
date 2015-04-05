@@ -218,7 +218,6 @@ bool isInput(AXUIElementRef elem)
     
     CFStringRef role;
     AXUIElementCopyAttributeValue(elem,kAXRoleAttribute,(CFTypeRef *)&role);
-    NSLog(@"%@",role);
     NSArray* array = [[NSArray alloc] initWithObjects:@"AXTextField", nil];
     
     if([array containsObject:(__bridge NSString*)role])
@@ -381,13 +380,71 @@ NSPointerArray * enumAppWindows()
     for(int i = 0;i < CFArrayGetCount(windows);++i)
     {
         AXUIElementRef window = (AXUIElementRef) CFArrayGetValueAtIndex(windows, i);
-        
+        CFBooleanRef main;
+        AXUIElementCopyAttributeValue(window,kAXMainAttribute,(CFTypeRef *)&main);
+        if(main != kCFBooleanTrue)
+        {
+            NSLog(@"not main window,continue");
+            continue;
+        }
         enumChilds(window,arr);
     }
     return arr;
 }
 //}
+NSString* getElemType(AXUIElementRef elem)
+{
+    /*  1. Check  enable */
+    
+    CFTypeRef val;
+    CFTypeRef role;
+    AXError error = nil;
+    NSString* type = nil;
+    CFStringRef input;
+    
+    AXUIElementCopyAttributeValue(elem, kAXEnabledAttribute, (CFTypeRef *)&val);
+    CFBooleanRef enable = (CFBooleanRef)val;
+    
+    if(enable != kCFBooleanTrue)
+        return type;
+    
+    /*  2. Check  actions */
+    
+    
+    NSArray *actions_ = copyActionNames(elem);
+    
+    if(actions_ == nil || actions_.count == 0)
+        return type;
+    
+    
+    /* 3. check input */
 
+    AXUIElementCopyAttributeValue(elem,kAXRoleAttribute,(CFTypeRef *)&role);
+    NSArray* array = [[NSArray alloc] initWithObjects:@"AXTextField", nil];
+    
+    if([array containsObject:(__bridge NSString*)role])
+    {
+        type = @"input";
+        return type;
+    }
+
+    /* 4. check button */
+    /* 4.1 ignore close btn */
+    error = AXUIElementCopyAttributeValue(elem, kAXRoleDescriptionAttribute, (CFTypeRef *)&role);
+    NSString *a = (__bridge NSString *)role;
+    array = [[NSArray alloc] initWithObjects:@"关闭按钮",@"缩放按钮",@"最小化按钮",nil];
+    if([array containsObject:a])
+        return type;
+    
+    if([actions_ containsObject:(id)@"AXPress"])
+    {
+        type = @"button";
+        return type;
+    }
+    
+    return type;
+    
+}
 NSMutableArray* enumAppButtons()
 {
     NSMutableArray* buttons = [[NSMutableArray alloc] init];
@@ -396,33 +453,31 @@ NSMutableArray* enumAppButtons()
     for(int i = 0;i < windows.count;++i)
     {
         AXUIElementRef elem = [windows pointerAtIndex:i];
-        if((isButton(elem) || isInput(elem)) && isEnable(elem) && !isCloseBtn(elem))
+        NSString* type = getElemType(elem);
+        if(type != nil)
         {
+            
             CFTypeRef position,Size;
             CGPoint point;
             CGSize  size_;
             
             AXUIElementCopyAttributeValue(elem, kAXPositionAttribute, (CFTypeRef *)&position);
             AXUIElementCopyAttributeValue(elem,kAXSizeAttribute,(CFTypeRef *)&Size);
-            
             AXValueGetValue(position, kAXValueCGPointType, &point);
             AXValueGetValue(Size,kAXValueCGSizeType,&size_);
             
             NSString *s = @"SS";
             
+            
             // 生成label
             enum Role role = button;
-            if(isInput(elem)) role = input;
+            if([type isEqualToString:@"input"]) role = input;
             MyLabel* label = [[MyLabel alloc] initLabel:elem :point.x :point.y :size_.width :size_.height :s :role];
             [buttons addObject:label];
             
             // Debugging (always zeros?)
             //NSLog(@"point=%f,%f size=%f,%f", point.x,point.y,size_.width,size_.height);
         }
-    }
-    for(id b in buttons)
-    {
-        NSLog(@"%@",b);
     }
     return buttons;
 }

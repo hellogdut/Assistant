@@ -17,8 +17,11 @@
     self = [super init];
     if(self)
     {
-        x = _x;
-        y = _y;
+        x =  _x;
+        y =  _y;
+        w =  _w;
+        h = _h;
+        
         i = 0;
         s = _s;
         elem = _elem;
@@ -59,8 +62,9 @@
 {
     NSRect screen = NSScreen.mainScreen.frame;
     
-    NSRect frameRect = NSMakeRect(x - 3,screen.size.height - y - h - 3,13 * [s length],20);
-    
+//    NSRect frameRect = NSMakeRect(x - 3,screen.size.height - y - h - 3,13 * [s length],20);
+    NSRect frameRect = NSMakeRect(x + w/2,screen.size.height - y - h/2 - 10,13 * [s length],20);
+//    NSLog(@"w = %f",w);
     
     label = [[NSTextView alloc] initWithFrame:frameRect];
     
@@ -83,7 +87,7 @@
     
     NSDictionary *backGround = @{
                                  NSBackgroundColorAttributeName : background,
-                                 NSFontAttributeName : [NSFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                 NSFontAttributeName : [NSFont fontWithName:@"Helvetica-Bold" size:12.0]
                                  };
 
     NSDictionary *matchColor = @{

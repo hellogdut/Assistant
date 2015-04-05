@@ -160,7 +160,9 @@ void observeAppCallBack( AXObserverRef observer, AXUIElementRef element, CFStrin
     if([@"AXApplicationDeactivated" isEqualToString:(__bridge NSString*)notification])
     {
         NSLog(@"AXApplicationDeactivated");
+        [instance userCancel];
         [instance unObserveApp];
+        
         return;
     }
     
