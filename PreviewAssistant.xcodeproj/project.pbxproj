@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		2B3836531AC9AB99000B79CA /* Utility.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B3836521AC9AB99000B79CA /* Utility.h */; };
+		2B5F17AA1AD175B80012DF6B /* MyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5F17A91AD175B80012DF6B /* MyWindow.m */; };
+		2B5F17AD1AD175CB0012DF6B /* MyLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5F17AC1AD175CB0012DF6B /* MyLabel.m */; };
+		2B5F17B01AD175D90012DF6B /* WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5F17AF1AD175D90012DF6B /* WindowController.m */; };
 		2B95BA3F1AC91F9F004BDFD6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B95BA3E1AC91F9F004BDFD6 /* AppDelegate.m */; };
 		2B95BA411AC91F9F004BDFD6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B95BA401AC91F9F004BDFD6 /* main.m */; };
 		2B95BA431AC91F9F004BDFD6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B95BA421AC91F9F004BDFD6 /* Images.xcassets */; };
 		2B95BA461AC91F9F004BDFD6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B95BA441AC91F9F004BDFD6 /* MainMenu.xib */; };
 		2B95BA521AC91F9F004BDFD6 /* PreviewAssistantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B95BA511AC91F9F004BDFD6 /* PreviewAssistantTests.m */; };
-		2BC4335E1ACE8DA700736BEA /* MyLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4335D1ACE8DA700736BEA /* MyLabel.m */; };
-		2BC433621ACE8DC300736BEA /* WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC433601ACE8DC300736BEA /* WindowController.m */; };
-		2BC433651ACE8DCD00736BEA /* MyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC433631ACE8DCD00736BEA /* MyWindow.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +32,12 @@
 		2B3836521AC9AB99000B79CA /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
 		2B3836541AC9AECA000B79CA /* KeyCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyCode.h; sourceTree = "<group>"; };
 		2B3836551AC9B7F6000B79CA /* Assistant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Assistant.h; sourceTree = "<group>"; };
+		2B5F17A81AD175B80012DF6B /* MyWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWindow.h; sourceTree = "<group>"; };
+		2B5F17A91AD175B80012DF6B /* MyWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWindow.m; sourceTree = "<group>"; };
+		2B5F17AB1AD175CB0012DF6B /* MyLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLabel.h; sourceTree = "<group>"; };
+		2B5F17AC1AD175CB0012DF6B /* MyLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLabel.m; sourceTree = "<group>"; };
+		2B5F17AE1AD175D90012DF6B /* WindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowController.h; sourceTree = "<group>"; };
+		2B5F17AF1AD175D90012DF6B /* WindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowController.m; sourceTree = "<group>"; };
 		2B95BA381AC91F9F004BDFD6 /* PreviewAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PreviewAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B95BA3C1AC91F9F004BDFD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B95BA3D1AC91F9F004BDFD6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -42,12 +48,6 @@
 		2B95BA4B1AC91F9F004BDFD6 /* PreviewAssistantTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreviewAssistantTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B95BA501AC91F9F004BDFD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B95BA511AC91F9F004BDFD6 /* PreviewAssistantTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreviewAssistantTests.m; sourceTree = "<group>"; };
-		2BC4335D1ACE8DA700736BEA /* MyLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyLabel.m; path = ../../myWindow/myWindow/MyLabel.m; sourceTree = "<group>"; };
-		2BC4335F1ACE8DAC00736BEA /* MyLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyLabel.h; path = ../../myWindow/myWindow/MyLabel.h; sourceTree = "<group>"; };
-		2BC433601ACE8DC300736BEA /* WindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WindowController.m; path = ../../myWindow/myWindow/WindowController.m; sourceTree = "<group>"; };
-		2BC433611ACE8DC300736BEA /* WindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowController.h; path = ../../myWindow/myWindow/WindowController.h; sourceTree = "<group>"; };
-		2BC433631ACE8DCD00736BEA /* MyWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyWindow.m; path = ../../myWindow/myWindow/MyWindow.m; sourceTree = "<group>"; };
-		2BC433641ACE8DCD00736BEA /* MyWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyWindow.h; path = ../../myWindow/myWindow/MyWindow.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,8 +138,8 @@
 		2BC4335A1ACE8D9300736BEA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				2BC433601ACE8DC300736BEA /* WindowController.m */,
-				2BC433611ACE8DC300736BEA /* WindowController.h */,
+				2B5F17AE1AD175D90012DF6B /* WindowController.h */,
+				2B5F17AF1AD175D90012DF6B /* WindowController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -147,8 +147,8 @@
 		2BC4335B1ACE8D9700736BEA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2BC4335F1ACE8DAC00736BEA /* MyLabel.h */,
-				2BC4335D1ACE8DA700736BEA /* MyLabel.m */,
+				2B5F17AB1AD175CB0012DF6B /* MyLabel.h */,
+				2B5F17AC1AD175CB0012DF6B /* MyLabel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -156,8 +156,8 @@
 		2BC4335C1ACE8D9D00736BEA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2BC433631ACE8DCD00736BEA /* MyWindow.m */,
-				2BC433641ACE8DCD00736BEA /* MyWindow.h */,
+				2B5F17A81AD175B80012DF6B /* MyWindow.h */,
+				2B5F17A91AD175B80012DF6B /* MyWindow.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -272,11 +272,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BC433621ACE8DC300736BEA /* WindowController.m in Sources */,
+				2B5F17AD1AD175CB0012DF6B /* MyLabel.m in Sources */,
+				2B5F17B01AD175D90012DF6B /* WindowController.m in Sources */,
+				2B5F17AA1AD175B80012DF6B /* MyWindow.m in Sources */,
 				2B95BA411AC91F9F004BDFD6 /* main.m in Sources */,
 				2B3836531AC9AB99000B79CA /* Utility.h in Sources */,
-				2BC433651ACE8DCD00736BEA /* MyWindow.m in Sources */,
-				2BC4335E1ACE8DA700736BEA /* MyLabel.m in Sources */,
 				2B95BA3F1AC91F9F004BDFD6 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>800B2FC9-4EF3-4BC1-BDF5-FB3A25034DF8</string>
+	<key>IDESourceControlProjectName</key>
+	<string>PreviewAssistant</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>FD64B694AEDCE4416E79C558B67A106A3D4BD842</key>
+		<string>https://github.com/hellogdut/Assistant.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>PreviewAssistant.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>FD64B694AEDCE4416E79C558B67A106A3D4BD842</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/hellogdut/Assistant.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>FD64B694AEDCE4416E79C558B67A106A3D4BD842</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FD64B694AEDCE4416E79C558B67A106A3D4BD842</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Assistant</string>
+		</dict>
+	</array>
+</dict>
+</plist>
