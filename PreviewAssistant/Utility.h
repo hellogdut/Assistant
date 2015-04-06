@@ -13,12 +13,15 @@
 #import "KeyCode.h"
 #import "MyLabel.h"
 #import "WindowController.h"
+#import "UIElementInfo.h"
+
 #include <time.h>
 
 
 
 int mouseSpeed = 30;
 int scrollSpeed = 20;
+
 
 bool isActive = true;
 bool withModifier = false;
@@ -28,6 +31,7 @@ int  k_count = 0;
 clock_t lastTime = 0;
 int  modifier[4] = {0,0,0,0}; // command opt  ctr shift
 CFMachPortRef eventTap;
+CGSize windowSize;
 
 
 
@@ -58,6 +62,7 @@ CGEventRef myCallback(CGEventTapProxy proxy, CGEventType type,CGEventRef event,v
 {
     
     CGKeyCode k = (CGKeyCode)CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
+    NSLog(@"keycode = %d",k);
     if(type  == kCGEventTapDisabledByTimeout || type == kCGEventTapDisabledByUserInput)
     {
         
@@ -92,9 +97,13 @@ CGEventRef myCallback(CGEventTapProxy proxy, CGEventType type,CGEventRef event,v
     if(type != kCGEventKeyDown)
         return event;
     
-    [WindowController handleKeyPress:k];
+    bool accept = [WindowController handleKeyPress:k];
     CGEventTapEnable(eventTap, true);
-    return nil;
+    
+    if(accept)
+        return nil;
+    else
+        return event;
     
     //    if(type == kCGEventFlagsChanged && isAskedToActive(k))
     //    {
@@ -231,9 +240,6 @@ bool isInput(AXUIElementRef elem)
     return false;
 
     
-    
-    
-    
     return false;
 }
 bool isButton(AXUIElementRef elem)
@@ -293,27 +299,7 @@ bool isEnable(AXUIElementRef elem)
 //    
 
 }
-void enumChilds(AXUIElementRef elem,NSPointerArray* arr)
-{
-    
-    NSLog(@"elem is %@",elem);
-    //    stringCopyable(elem);
-    AXError error = nil;
-    CFArrayRef cfchilds = nil;
-    
-    // should be kAXChildrenAttribute
-    error = AXUIElementCopyAttributeValue(elem, kAXChildrenAttribute, (CFTypeRef *)&cfchilds);
-    
-    if(!cfchilds)
-        return;
-    
-    for(int i = 0;i < CFArrayGetCount(cfchilds);++i)
-    {
-        AXUIElementRef child = (AXUIElementRef) CFArrayGetValueAtIndex( cfchilds, i);
-        [arr addPointer:child];
-        enumChilds(child,arr);
-    }
-}
+
 
 pid_t activeAppRef()
 {
@@ -346,13 +332,13 @@ pid_t activeAppRef()
     }
     return pid;
 }
-NSPointerArray * enumAppWindows()
+NSPointerArray* getAppMainWindow()
 {
     
-    // Get window PID
+    // 1. Get active Application pid
     pid_t pid = activeAppRef();
     
-    // Get AXUIElement using PID
+    // 2. Get that app using pid
     AXUIElementRef appRef = AXUIElementCreateApplication(pid);
     
     if (!appRef) {
@@ -362,6 +348,7 @@ NSPointerArray * enumAppWindows()
     NSLog(@"Ref = %@",appRef);
     
     
+    // 3. Get windows of the app
     CFArrayRef windows = nil;
     AXError error = 0;
     error = AXUIElementCopyAttributeValue(appRef, kAXWindowsAttribute, (CFTypeRef *)&windows);
@@ -374,112 +361,310 @@ NSPointerArray * enumAppWindows()
         return nil;
     NSLog(@"Windows = %@", windows);
     
+    // 4. return main window among windows
     
     NSPointerArray *arr = [NSPointerArray weakObjectsPointerArray];
-    
-    // enum all windows
     for(int i = 0;i < CFArrayGetCount(windows);++i)
     {
         AXUIElementRef window = (AXUIElementRef) CFArrayGetValueAtIndex(windows, i);
         CFBooleanRef main;
-        AXUIElementCopyAttributeValue(window,kAXMainAttribute,(CFTypeRef *)&main);
-        if(main != kCFBooleanTrue)
-        {
-            NSLog(@"not main window,continue");
-            continue;
-        }
-        enumChilds(window,arr);
+        [arr addPointer:window];
+//        AXUIElementCopyAttributeValue(window,kAXMainAttribute,(CFTypeRef *)&main);
+//        if(main == kCFBooleanTrue)
+//        {
+//            return window;
+//        }
     }
     return arr;
 }
 //}
-NSString* getElemType(AXUIElementRef elem)
+
+
+//NSString* getElemType(AXUIElementRef elem)
+//{
+//    /*  1. Check  enable */
+//    
+//    CFTypeRef val;
+//    CFTypeRef role;
+//    AXError error = nil;
+//    NSString* type = nil;
+//    CFStringRef input;
+//    
+//    AXUIElementCopyAttributeValue(elem, kAXEnabledAttribute, (CFTypeRef *)&val);
+//    CFBooleanRef enable = (CFBooleanRef)val;
+//    
+//    if(enable != kCFBooleanTrue)
+//        return type;
+//    
+//    /*  2. Check  actions */
+//    
+//    NSArray *actions_ = copyActionNames(elem);
+//    if(actions_ == nil || actions_.count == 0)
+//        return type;
+//    
+//    
+//    /* 3. check input */
+//
+//    AXUIElementCopyAttributeValue(elem,kAXRoleAttribute,(CFTypeRef *)&role);
+//    NSArray* array = [[NSArray alloc] initWithObjects:@"AXTextField", nil];
+//    
+//    if([array containsObject:(__bridge NSString*)role])
+//    {
+//        type = @"input";
+//        return type;
+//    }
+//
+//    /* 4. check button */
+//    /* 4.1 ignore close btn */
+//    error = AXUIElementCopyAttributeValue(elem, kAXRoleDescriptionAttribute, (CFTypeRef *)&role);
+//    NSString *a = (__bridge NSString *)role;
+//    array = [[NSArray alloc] initWithObjects:@"关闭按钮",@"缩放按钮",@"最小化按钮",nil];
+//    if([array containsObject:a])
+//        return type;
+//    
+//    if([actions_ containsObject:(id)@"AXPress"])
+//    {
+//        type = @"button";
+//        return type;
+//    }
+//    return type;
+//    
+//}
+
+CGSize getElementSize(AXUIElementRef elem)
 {
-    /*  1. Check  enable */
-    
-    CFTypeRef val;
-    CFTypeRef role;
-    AXError error = nil;
-    NSString* type = nil;
-    CFStringRef input;
-    
-    AXUIElementCopyAttributeValue(elem, kAXEnabledAttribute, (CFTypeRef *)&val);
-    CFBooleanRef enable = (CFBooleanRef)val;
-    
-    if(enable != kCFBooleanTrue)
-        return type;
-    
-    /*  2. Check  actions */
-    
-    
-    NSArray *actions_ = copyActionNames(elem);
-    
-    if(actions_ == nil || actions_.count == 0)
-        return type;
-    
-    
-    /* 3. check input */
-
-    AXUIElementCopyAttributeValue(elem,kAXRoleAttribute,(CFTypeRef *)&role);
-    NSArray* array = [[NSArray alloc] initWithObjects:@"AXTextField", nil];
-    
-    if([array containsObject:(__bridge NSString*)role])
-    {
-        type = @"input";
-        return type;
-    }
-
-    /* 4. check button */
-    /* 4.1 ignore close btn */
-    error = AXUIElementCopyAttributeValue(elem, kAXRoleDescriptionAttribute, (CFTypeRef *)&role);
-    NSString *a = (__bridge NSString *)role;
-    array = [[NSArray alloc] initWithObjects:@"关闭按钮",@"缩放按钮",@"最小化按钮",nil];
-    if([array containsObject:a])
-        return type;
-    
-    if([actions_ containsObject:(id)@"AXPress"])
-    {
-        type = @"button";
-        return type;
-    }
-    return type;
-    
+    CFTypeRef v_size;
+    CGSize  size;
+    AXUIElementCopyAttributeValue(elem,kAXSizeAttribute,(CFTypeRef *)&v_size);
+    AXValueGetValue(v_size,kAXValueCGSizeType,&size);
+    return size;
 }
-NSMutableArray* enumAppButtons()
+
+// to make sure that elem size smaller than window
+CGSize getElementSuitableSize(AXUIElementRef elem)
 {
-    NSMutableArray* buttons = [[NSMutableArray alloc] init];
-    NSPointerArray *windows = enumAppWindows();
+    CGSize  size = getElementSize(elem);
     
-    for(int i = 0;i < windows.count;++i)
+    if(size.width > windowSize.width)
+        size.width = windowSize.width;
+    if(size.height > windowSize.height)
+        size.height = windowSize.height;
+    return size;
+}
+
+
+
+CGPoint getElementPos(AXUIElementRef elem)
+{
+    CFTypeRef v_position;
+    CGPoint point;
+    AXUIElementCopyAttributeValue(elem, kAXPositionAttribute, (CFTypeRef *)&v_position);
+    AXValueGetValue(v_position, kAXValueCGPointType, &point);
+    return point;
+}
+
+UIElementInfo* getUIElementInfo(AXUIElementRef elem)
+{
+    
+    // 1. check is enable
+    CFTypeRef v_enable;
+    AXError error;
+    error = AXUIElementCopyAttributeValue(elem, kAXEnabledAttribute, (CFTypeRef *)&v_enable);
+    if(error == kAXErrorSuccess)
     {
-        AXUIElementRef elem = [windows pointerAtIndex:i];
-        NSString* type = getElemType(elem);
-        if(type != nil)
+        bool enable = ((CFBooleanRef)v_enable == kCFBooleanTrue);
+        if(!enable) return nil;
+    }
+    
+    // 2. check role
+    NSString* role = nil;
+    CFTypeRef v_role;
+    error = AXUIElementCopyAttributeValue(elem,kAXRoleAttribute,(CFTypeRef *)&v_role);
+    if(error != kAXErrorSuccess)
+        return nil;
+    
+    role = (__bridge NSString*)v_role;
+    
+    
+    // 3. check subrole
+    CFTypeRef v_subRole;
+    NSString* subRole = nil;
+    error = AXUIElementCopyAttributeValue(elem,kAXSubroleAttribute,(CFTypeRef *)&v_subRole);
+    if(error == kAXErrorSuccess)
+        subRole = (__bridge NSString*)v_subRole;
+    
+    // 3. check action
+    
+    CFArrayRef arr = nil;
+    NSArray *action = nil;
+    error = AXUIElementCopyActionNames(elem,(CFTypeRef *)&arr);
+    if(error == kAXErrorSuccess)
+    {
+        action = [(__bridge NSArray *) arr copy];
+        CFRelease(arr);
+    }
+    
+    // 4. get position and size
+    
+    UIElementInfo* info = [[UIElementInfo alloc] init];
+    info.ref = elem;
+    info.role = role;
+    info.subRole = subRole;
+    info.action = action;
+    info.point = getElementPos(info.ref);
+    info.size = getElementSuitableSize(info.ref);
+    
+    //NSLog(@"role : %@ subrole : %@ action: %@",role,subRole,action);
+    return info;
+}
+
+
+
+void enumWindowChildren(AXUIElementRef elem,NSMutableArray* arr)
+{
+    
+    AXError error = nil;
+    CFArrayRef cfchilds = nil;
+    
+    UIElementInfo* info = getUIElementInfo(elem);
+    
+    // 1. return disbale
+    if(info == nil)
+        return;
+    
+    // 2. return close btn
+    if([info.role isEqualToString:@"AXButton"])
+    {
+        NSArray* ignore = [[NSArray alloc] initWithObjects:@"AXCloseButton",@"AXZoomButton",@"AXMinimizeButton",@"AXFullScreenButton",nil];
+        if([ignore containsObject:info.subRole])
+            return;
+        info.type = buttonType;
+        [arr addObject:info];
+        return;
+    }
+    
+    // 3. non-inputable AXSearchField
+    if(info.subRole != nil && [info.subRole isEqualToString:@"AXSearchField"])
+    {
+        if(![info.role isEqualToString:@"AXTextField"])
+            return;
+        else
         {
-            
-            CFTypeRef position,Size;
-            CGPoint point;
-            CGSize  size_;
-            
-            AXUIElementCopyAttributeValue(elem, kAXPositionAttribute, (CFTypeRef *)&position);
-            AXUIElementCopyAttributeValue(elem,kAXSizeAttribute,(CFTypeRef *)&Size);
-            AXValueGetValue(position, kAXValueCGPointType, &point);
-            AXValueGetValue(Size,kAXValueCGSizeType,&size_);
-            
-            NSString *s = @"SS";
-            
-            
-            // 生成label
-            enum Role role = button;
-            if([type isEqualToString:@"input"]) role = input;
-            MyLabel* label = [[MyLabel alloc] initLabel:elem :point.x :point.y :size_.width :size_.height :s :role];
-            [buttons addObject:label];
-            
-            // Debugging (always zeros?)
-            //NSLog(@"point=%f,%f size=%f,%f", point.x,point.y,size_.width,size_.height);
+            info.type = inputType;
+            [arr addObject:info];
+            return;
         }
     }
-    return buttons;
+    
+    // 3.check is normal textField
+    NSArray* textField = [[NSArray alloc] initWithObjects:@"AXTextArea",@"AXTextField",nil];
+    if([textField containsObject:info.role])
+    {
+        info.type = inputType;
+        [arr addObject:info];
+        return;
+    }
+    
+    // 4. AXRow
+    if([info.role isEqualToString:@"AXRow"])
+    {
+        info.type = inputType;
+        [arr addObject:info];
+        return;
+    }
+    // 5. AXLink
+    if([info.role isEqualToString:@"AXLink"])
+    {
+        info.type = button;
+        [arr addObject:info];
+        return;
+    }
+    // 5.pressable
+    if([info.action containsObject:@"AXPress"])
+    {
+        info.type = buttonType;
+        [arr addObject:info];
+        return;
+
+    }
+    
+    if([info.role isEqualToString:@"AXTable"] || [info.role isEqualToString:@"AXOutline"])
+    {
+        error = AXUIElementCopyAttributeValue(elem, kAXVisibleRowsAttribute, (CFTypeRef *)&cfchilds);
+        
+    }
+    else
+    {
+        error = AXUIElementCopyAttributeValue(elem, kAXChildrenAttribute, (CFTypeRef *)&cfchilds);
+    }
+
+    
+    if(error != kAXErrorSuccess || cfchilds == nil)
+    {
+        return;
+    }
+    
+    for(int i = 0;i < CFArrayGetCount(cfchilds);++i)
+    {
+        AXUIElementRef child = (AXUIElementRef) CFArrayGetValueAtIndex( cfchilds, i);
+        enumWindowChildren(child,arr);
+    }
+}
+NSMutableArray* getWindowLabels()
+{
+    NSMutableArray* children = [[NSMutableArray alloc] init];
+//    AXUIElementRef mainWindow = getAppMainWindow();
+    NSPointerArray* arr = getAppMainWindow();
+    
+    if(arr == nil)
+        return nil;
+    for(int i = 0;i < arr.count;++i)
+    {
+        AXUIElementRef window = [arr pointerAtIndex:i];
+        windowSize = getElementSize(window);
+        enumWindowChildren(window, children);
+        
+    }
+    NSMutableArray* labels = [[NSMutableArray alloc] init];
+        for(int i = 0;i < children.count; ++i)
+        {
+            UIElementInfo* elem = [children objectAtIndex:i];
+            enum Role role = button;
+            if(elem.type == inputType)
+                role = input;
+            MyLabel *label = [[MyLabel alloc] initLabel:elem.ref :elem.point.x :elem.point.y :elem.size.width :elem.size.height :@"" :role];
+            [labels addObject:label];
+        }
+        //NSLog(@"labels is %@",labels);
+        return labels;
+
+    
+    
+//    if(mainWindow == nil)
+//    {
+//        NSLog(@"can't find mainWindow");
+//        return nil;
+//    }
+//    
+//    // to make sure that elem size smaller than window
+//    windowSize = getElementSize(mainWindow);
+//    
+//    enumWindowChildren(mainWindow, children);
+//    
+//    NSMutableArray* labels = [[NSMutableArray alloc] init];
+//
+//    for(int i = 0;i < children.count; ++i)
+//    {
+//        UIElementInfo* elem = [children objectAtIndex:i];
+//        enum Role role = button;
+//        if(elem.type == inputType)
+//            role = input;
+//        MyLabel *label = [[MyLabel alloc] initLabel:elem.ref :elem.point.x :elem.point.y :elem.size.width :elem.size.height :@"" :role];
+//        [labels addObject:label];
+//    }
+//    //NSLog(@"labels is %@",labels);
+//    return labels;
+    
 }
 
 
@@ -627,20 +812,20 @@ char KeyCodeToChar(CGKeyCode k)
 //}
 
 ///* trackpad */
-//void sendScroll(int offset)
-//{
-//    CGEventRef wheelEvent = CGEventCreateScrollWheelEvent(NULL,kCGScrollEventUnitLine,1,offset);
-//    CGEventPost(kCGSessionEventTap, wheelEvent);
-//    CFRelease(wheelEvent);
-//}
+void sendScroll(int offset)
+{
+    CGEventRef wheelEvent = CGEventCreateScrollWheelEvent(NULL,kCGScrollEventUnitLine,1,offset);
+    CGEventPost(kCGSessionEventTap, wheelEvent);
+    CFRelease(wheelEvent);
+}
 
 /*  mouse */
 
-//NSPoint getCursorPos()
-//{
-//    CGEventRef ourEvent = CGEventCreate(NULL);
-//    return CGEventGetLocation(ourEvent);
-//}
+NSPoint getCursorPos()
+{
+    CGEventRef ourEvent = CGEventCreate(NULL);
+    return CGEventGetLocation(ourEvent);
+}
 
 void setCursorPos(NSPoint pt)
 {
@@ -670,12 +855,21 @@ void sendMouseClickLeft(NSPoint pt)
 {
 //    CGEventRef ourEvent = CGEventCreate(NULL);
 //    NSPoint pt = CGEventGetLocation(ourEvent);
-    CGEventRef down = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseDown, pt, 1);
-    CGEventRef up = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseUp, pt, 1);
+    CGEventRef down = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseDown, pt, kCGMouseButtonLeft);
+    CGEventRef up = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseUp, pt, kCGMouseButtonLeft);
     sendMouseSingleClick(down,up);
-
 }
+void sendMouseDoubleClick(NSPoint pt)
+{
+    CGEventRef down = CGEventCreateMouseEvent(nil, kCGEventLeftMouseDown, pt, kCGMouseButtonLeft);
+    CGEventSetIntegerValueField(down, kCGMouseEventClickState, 2);
+    CGEventRef up = CGEventCreateMouseEvent(nil, kCGEventLeftMouseUp, pt, kCGMouseButtonLeft);
+    CGEventSetIntegerValueField(up, kCGMouseEventClickState, 2);
+    sendMouseSingleClick(down,up);
+//    sendMouseSingleClick(down,up);
 
+    
+}
 //void sendMouseClickRight()
 //{
 //    CGEventRef ourEvent = CGEventCreate(NULL);

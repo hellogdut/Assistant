@@ -20,10 +20,11 @@ enum Role {input,button};
     float x,y,w,h;
     int i;
     
-    enum Role role;
+    
 }
 @property (readwrite) NSString* s;
 @property (readwrite) NSTextView* label;
+@property (readwrite) enum Role role;
 
 - (id) initLabel:(AXUIElementRef)_elem :(int)_x :(int)_y :(int)_w :(int)_h :(NSString*)_s : (enum Role) _type;
 - (void) back;

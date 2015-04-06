@@ -10,13 +10,16 @@
 
 @interface UIElementInfo : NSObject
 
-
+enum Type { buttonType,inputType };
+    
 @property (readwrite) AXUIElementRef ref;
+@property (readwrite) NSString* parentRole;
+@property (readwrite) NSString* parentSubRole;
 @property (readwrite) NSString* role;
 @property (readwrite) NSString* subRole;
-@property (readwrite) BOOL enable;
 @property (readwrite) NSArray* action;
 @property (readwrite) CGPoint point;
-@property (readwrite) CGPoint size;
+@property (readwrite) CGSize size;
+@property (readwrite) enum Type type;
 
 @end

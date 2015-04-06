@@ -9,7 +9,7 @@
 #import "MyLabel.h"
 
 @implementation MyLabel
-@synthesize label,s;
+@synthesize label,s,role;
 
 
 - (id) initLabel:(AXUIElementRef)_elem :(int)_x :(int)_y :(int)_w :(int)_h :(NSString*)_s : (enum Role) _role
@@ -62,8 +62,9 @@
 {
     NSRect screen = NSScreen.mainScreen.frame;
     
-//    NSRect frameRect = NSMakeRect(x - 3,screen.size.height - y - h - 3,13 * [s length],20);
     
+//    NSRect frameRect = NSMakeRect(x - 3,screen.size.height - y - h - 3,13 * [s length],20);
+    NSLog(s);
     NSRect frameRect = NSMakeRect(x + w/2,screen.size.height - y - h/2 - 10,10 * [s length],20);
     label = [[NSTextView alloc] initWithFrame:frameRect];
     [label setString:s];
@@ -98,7 +99,7 @@
         }
         else
         {
-            posX = x + w - wh;
+            posX = x + w*0.7 - wh;
             posY = posY - h/2 - ht/2;
         }
         [label setFrame:NSMakeRect(posX, posY, wh, ht)];
@@ -122,19 +123,20 @@
     NSColor* InputBackGround = [NSColor greenColor];
     
     
-    NSColor* background;
-    NSColor* match;
+    NSColor* background = buttonBackGround;
     
-    if(role == button)
-    {
-        background = buttonBackGround;
-        match = buttonMatch;
-    }
-    else if (role == input)
-    {
-        background = InputBackGround;
-        match = buttonMatch;
-    }
+    NSColor* match = buttonMatch;
+    
+//    if(role == button)
+//    {
+//        background = buttonBackGround;
+//        match = buttonMatch;
+//    }
+//    else if (role == input)
+//    {
+//        background = InputBackGround;
+//        match = buttonMatch;
+//    }
     
     
     
@@ -178,25 +180,29 @@ void sendMouseClickLeft(NSPoint pt);
 
 - (void) performAction;
 {
+    AXError err = nil;
+    
     if(role == button)
     {
-        NSLog(@"kAXPressAction");
-        AXUIElementPerformAction(elem,kAXPressAction);
+        err = AXUIElementPerformAction(elem,kAXPressAction);
+        NSPoint pt = NSMakePoint(x + w/2 , y);
+        setCursorPos(pt);
+        CGDisplayHideCursor(kCGDirectMainDisplay);
+        if(err != kAXErrorSuccess)
+        {
+            sendMouseClickLeft(pt);
+        }
+
+        
         return;
     }
     if(role == input)
     {
-//        NSLog(@"kAXConfirmAction");
-//        AXUIElementSetAttributeValue(elem, kAXFocusedAttribute,kCFBooleanTrue);
-//        return;
         CGDisplayHideCursor(kCGDirectMainDisplay);
-        NSPoint pt = NSMakePoint(x + w/2, y);
+        NSPoint pt = NSMakePoint(x + w/2 , y);
         sendMouseClickLeft(pt);
         CGDisplayHideCursor(kCGDirectMainDisplay);
         
-        
-        
-
     }
 }
 - (void) showIndicator

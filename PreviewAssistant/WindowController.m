@@ -7,21 +7,43 @@
 //
 
 #import "WindowController.h"
+#import "KeyCode.h"
 
 static NSObject *instance_ = nil;
 
 @implementation WindowController
 
-@synthesize window,array,view,active,deactivatedObserver,moveObserver,observedApp;
+@synthesize window,array,view,mode;
+@synthesize scrollSpeed;
+@synthesize observedApp,deactivatedObserver,moveObserver,hideObserver,resizeObserver;
+@synthesize last_Esc;
+@synthesize  last_Key;
 
 - (id) init
 {
     self = [super init];
-    array = nil;
     if(self)
         instance_ = self;
-    active = false;
+    
+    [self reset_];
+    
     return self;
+}
++ (void) reset
+{
+    [[WindowController instance] reset_];
+    
+}
+- (void) reset_
+{
+    scrollSpeed = 20;
+    observedApp = deactivatedObserver = moveObserver = hideObserver = resizeObserver = nil;
+    last_Esc = 0;
+    last_Key = 0;
+    array = nil;
+    mode = Ready;
+    
+    
 }
 - (void) showLabels:(bool)first;
 {
@@ -44,17 +66,16 @@ static NSObject *instance_ = nil;
     return instance_;
 }
 
-
-
 - (void) generateWord
 {
-//    NSArray * word = [[NSArray alloc]initWithObjects:
-//                        @"E",@"K",@"M",@"A",@"D",@"U",@"V",@"S",@"J",@"H",@"I",@"QJ",@"QK",@"QP",@"WJ",@"WK",@"WP",@"PA",@"PS",@"PD",@"MA",@"MQ",@"MW",@"ME",@"VI",@"VJ",@"VK",@"VP",@"YA",@"YS",nil];
-    
+
     NSArray * word = [[NSArray alloc]initWithObjects:
-                      @" E ",@" K ",@" D ",@" U ",@" S ",@" J ",@" H ",@" L ",@" G ",@" I ",@" QJ ",@" QK ",@" QP ",@" WJ ",@" WK ",@" WP ",@" PA ",@" PS ",@" PD ",@" MA ",@" MQ ",@" MW ",@" ME ",@" VI ",@" VJ ",@" VK ",@" VP ",@" YA ",@" YS ",nil];
+                      @" E ",@" K ",@" D ",@" U ",@" S ",@" J ",@" L ",@" G ",@" I ",@" QK ",@" QP ",@" WH ",@" WJ ",@" WK ",@" WL ",@" WU ",@" WI ",@" WO ",@" WP ",@" PA ",@" PS ",@" PD ",@" PJ ",@" MA ",@" MQ ",@" MW ",@" ME ",@" VI ",@" VJ ",@" VK ",@" VP ",@" VL ",@" YA ",@" YS ",@" HQ ",@" HW ",@" HE ",@" HA ",@" NA ",@" NS ",@" ND ",@" NQ ",@" NW ",@" NE ",@" NF ",@" NG ",nil];
+
     
     int n = [word count];
+    int c = array.count;
+    
     for(int i = 0;i < array.count;++i)
     {
         MyLabel* label = (MyLabel*)[array objectAtIndex:i];
@@ -155,24 +176,42 @@ void observeAppCallBack( AXObserverRef observer, AXUIElementRef element, CFStrin
 {
     
     NSLog(@"observeAppCallBack");
-    id instance = [WindowController instance];
+    WindowController* instance = [WindowController instance];
     
-    if([@"AXApplicationDeactivated" isEqualToString:(__bridge NSString*)notification])
+    NSString* noti = (__bridge NSString*)notification;
+    if([@"AXApplicationDeactivated" isEqualToString:noti])
     {
         NSLog(@"AXApplicationDeactivated");
         [instance userCancel];
         [instance unObserveApp];
-        
         return;
     }
     
-    if([@"AXWindowMoved" isEqualToString:(__bridge NSString*)notification])
+    if([@"AXWindowMoved" isEqualToString:noti])
     {
-        NSLog(@"AXWindowMoved");
-        [instance windowMove];
+        NSLog(noti);
+        
+        if([instance mode] == Showing)
+        {
+            [instance userCancel];
+            [instance unObserveApp];
+            [WindowController handleKeyPress:0x03];
+        }
+        else
+        {
+            [instance userCancel];
+            [instance unObserveApp];
+        }
         return;
     }
-    NSLog(@"unkonwn notification");
+    if([@"AXMainWindowChanged" isEqualToString:noti])
+    {
+        NSLog(@"AXMainWindowChanged");
+        [instance userCancel];
+        [instance unObserveApp];
+        return;
+    }
+    NSLog(@"unknown notification");
     
     
     
@@ -203,24 +242,87 @@ pid_t activeAppRef();
     AXError err = nil;
 
     err = AXObserverCreate(pid,observeAppCallBack,&deactivatedObserver);
+    if(err != kAXErrorSuccess)
+    {
+        NSLog(@"deactivatedObserver error %d",err);
+        deactivatedObserver = nil;
+        return;
+    }
+    
     err = AXObserverCreate(pid,observeAppCallBack,&moveObserver);
     if(err != kAXErrorSuccess)
-        NSLog(@"AXObserverCreate error %d",err);
+    {
+         NSLog(@"moveObserver error %d",err);
+         moveObserver = nil;
+        return;
+    }
     
-    err = AXObserverAddNotification(deactivatedObserver,appRef,kAXApplicationDeactivatedNotification,NULL);
+//    err = AXObserverCreate(pid,observeAppCallBack,&resizeObserver);
+//    if(err != kAXErrorSuccess)
+//    {
+//        NSLog(@"moveObserver error %d",err);
+//        resizeObserver = nil;
+//        return;
+//    }
+    err = AXObserverCreate(pid,observeAppCallBack,&hideObserver);
+    if(err != kAXErrorSuccess)
+    {
+        NSLog(@"hideObserver error %d",err);
+        hideObserver = nil;
+        return;
+    }
+    
     err = AXObserverAddNotification(moveObserver,appRef,kAXWindowMovedNotification,NULL);
     
-    if(err == kAXErrorSuccess)
-        NSLog(@"AXObserverAddNotification error %d",err);
+    if(err != kAXErrorSuccess)
+    {
+        NSLog(@"add kAXWindowMovedNotification failed");
+        return;
+    }
+    
+    err = AXObserverAddNotification(deactivatedObserver,appRef,kAXApplicationDeactivatedNotification,NULL);
+    if(err != kAXErrorSuccess)
+    {
+        NSLog(@"add kAXApplicationDeactivatedNotification failed");
+        return;
+    }
+    
+//    err = AXObserverAddNotification(resizeObserver,appRef,kAXWindowResizedNotification,NULL);
+//    if(err != kAXErrorSuccess)
+//    {
+//        NSLog(@"add kAXWindowResizedNotification failed");
+//        return;
+//    }
+//    
+    err = AXObserverAddNotification(hideObserver,appRef,kAXMainWindowChangedNotification,NULL);
+    if(err != kAXErrorSuccess)
+    {
+        NSLog(@"add kAXMainWindowChangedNotification failed");
+        return;
+    }
+
+    
     
     CFRunLoopAddSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(self.deactivatedObserver), kCFRunLoopDefaultMode);
     CFRunLoopAddSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(self.moveObserver), kCFRunLoopDefaultMode);
+//    CFRunLoopAddSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(self.resizeObserver), kCFRunLoopDefaultMode);
+    CFRunLoopAddSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(self.hideObserver), kCFRunLoopDefaultMode);
+    
 }
 - (void) unObserveApp
 {
+    if(observedApp == nil)
+        return;
     
-    AXObserverRemoveNotification([self deactivatedObserver],[self observedApp],kAXApplicationDeactivatedNotification);
-    AXObserverRemoveNotification([self moveObserver],[self observedApp],kAXWindowMovedNotification);
+    if(deactivatedObserver != nil)
+        AXObserverRemoveNotification([self deactivatedObserver],[self observedApp],kAXApplicationDeactivatedNotification);
+    if(moveObserver != nil)
+        AXObserverRemoveNotification([self moveObserver],[self observedApp],kAXWindowMovedNotification);
+//    if(resizeObserver != nil)
+//        AXObserverRemoveNotification([self resizeObserver],[self observedApp],kAXWindowMovedNotification);
+    if(hideObserver != nil)
+        AXObserverRemoveNotification([self hideObserver],[self observedApp],kAXWindowMovedNotification);
+    
     return;
 
 }
@@ -229,7 +331,7 @@ pid_t activeAppRef();
 {
     
     [self hideAllLabels];
-    active = false;
+    mode = Ready;
 }
 
 - (void) windowMove
@@ -238,129 +340,242 @@ pid_t activeAppRef();
     [self unObserveApp];
     [WindowController handleKeyPress:0x03];
 }
-char KeyCodeToChar(CGKeyCode k);
 
-+ (void) handleKeyPress:(CGKeyCode)k
+- (void) toInSertring
 {
+    [self userCancel];
+    mode = InSerting;
+}
+- (void) toShowing
+{
+    mode = Showing;
     
-    NSLog(@"new key %d",k);
-    WindowController* instance = [WindowController instance];
-    char c = KeyCodeToChar(k);
+}
+- (void) toSleeping
+{
+    mode = sleeping;
+}
+- (void) toReady
+{
+    [self userCancel];
+    mode = Ready;
+}
+- (void) backSpace
+{
+    if(array == nil) return;
     
-    // 创建标签
-    if(!instance.active && c == 'f')
+    // 如果是用户取消f
+    bool selected = [self anyLabelSelected];
+    if(!selected)
     {
-        NSLog(@"!instance.active && c == 'f'");
-        instance.active = true;
-        [instance enumButtons];
-        [instance generateWord];
-        [instance showLabels:YES];
+        [self userCancel];
         return;
     }
     
-    if(!instance.active)
+    // 回退
+    [self backAllLabels];
+    
+    // 隐藏非选中
+    if([self anyLabelSelected])
     {
-        NSLog(@"!instance.active");
-        // 只处理滚轮按键等
-        return;
+        [self hideNoneSelectedLabels];
     }
-    
-    
-    // Esc
-    if(c == 1)
+    else
     {
-        NSLog(@"ESC");
-        [instance userCancel];
-        return;
+        [self showAllLabels];
+    }
+    return;
+}
 
-    }
-    // BackSpace
-    if(c == 2)
-    {
-        NSLog(@"BackSpace");
-        if(instance.array == nil) return;
-        
-        // 如果是用户取消f
-        bool selected = [instance anyLabelSelected];
-        if(!selected)
-        {
-            [instance userCancel];
-            return;
-            
-        }
-        
-        // 回退
-        [instance backAllLabels];
-        
-        // 隐藏非选中
-        if([instance anyLabelSelected])
-        {
-            [instance hideNoneSelectedLabels];
-        }
-        else
-        {
-            [instance showAllLabels];
-        }
-        return;
-    }
+- (void) handleLetter:(CGKeyCode)k
+{
+    char c = [self CGKeyCode2Char:k];
     
-    NSLog(@"active");
-    
-    // 处理字母
     // 先检测是否为第一次输入
-    bool selected = [instance anyLabelSelected];
+    bool selected = [self anyLabelSelected];
     
     // 第一次输入，更新所有
     if(!selected)
     {
-        [instance appendAllLabels:c];
+        [self appendAllLabels:c];
     }
     // 非第一次选中，只更新选中
     else
     {
-        [instance appendSelectedLabels:c];
+        [self appendSelectedLabels:c];
     }
-    
     // 先隐藏所有标签。再次检查是否有标签被选中，如果有，隐藏其它。否则全部显示
     
-    //[instance hideAllLabels];
-    
-    selected = [instance anyLabelSelected];
+    selected = [self anyLabelSelected];
     
     if(selected)
     {
-        [instance hideNoneSelectedLabels];
+        [self hideNoneSelectedLabels];
     }
     else
     {
-        [instance showAllLabels];
+        [self showAllLabels];
     }
     
-    [instance.view updateConstraints];
+    [self.view updateConstraints];
     
     
     // 是否触发
-    NSLog(@"instance.array.count = %d",instance.array.count);
-    for(MyLabel* i in instance.array)
+    //    NSLog(@"instance.array.count = %@",instance.array.count);
+    for(MyLabel* i in self.array)
     {
         if([i isOn])
         {
             NSLog(@"%@",i.s);
-            instance.active = false;
-            [i performAction];
-            [instance hideAllLabels];
-            //[[instance targetApp] unhide];
-           // [[instance targetApp] activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+            mode = Ready;
             
+//            if(i.role == input)
+//                mode = InSerting;
+//            else
+//            {
+//                mode = Ready;
+//            }
+            [i performAction];
+            [self hideAllLabels];
+            //[[instance targetApp] unhide];
+            // [[instance targetApp] activateWithOptions:NSApplicationActivateIgnoringOtherApps];
             
             break;
         }
     }
 
-    
-    return;
+}
+void sendMouseSingleClick(CGEventRef down,CGEventRef up);
+void sendMouseClickLeft(NSPoint pt);
+void sendScroll(int offset);
 
+NSPoint getCursorPos();
+- (void) singleClick
+{
+    NSPoint pt = getCursorPos();
+    sendMouseClickLeft(pt);
+    CGDisplayHideCursor(kCGDirectMainDisplay);
+}
+
+void sendMouseDoubleClick(NSPoint pt);
+- (void) doubleClick
+{
+    NSPoint pt = getCursorPos();
+    sendMouseDoubleClick(pt);
+    CGDisplayHideCursor(kCGDirectMainDisplay);
+}
+
+char KeyCodeToChar(CGKeyCode k);
+- (bool) handleKeyPress_:(CGKeyCode) k
+{
     
+    char c = KeyCodeToChar(k);
+    // 创建标签
+    if(mode  == Ready)
+    {
+        last_Key = k;
+        
+        if(c == 'f')
+        {
+            mode = Showing;
+            [self enumButtons];
+            [self generateWord];
+            [self showLabels:YES];
+            return true;
+        }
+        if(c == 'i')
+        {
+            [self toInSertring];
+            return true;
+        }
+        if(c == 'h')
+        {
+            [self doubleClick];
+            return true;
+        }
+        if(c == 'j')
+        {
+            sendScroll(-scrollSpeed);
+            return true;
+        }
+        if(c == 'k')
+        {
+            sendScroll(scrollSpeed);
+            return true;
+        }
+        if(k == Key_Grave)
+        {
+            [self toSleeping];
+            return true;
+        }
+        return false;
+    }
+    
+    if(mode == InSerting)
+    {
+        if(k == Key_Escape)
+        {
+            if(last_Key != Key_Escape)
+            {
+                last_Key = k;
+                last_Esc = clock();
+                return false;
+            }
+            else
+            {
+                clock_t cur = clock();
+                double duration = (double)(cur - last_Esc);
+                last_Esc = cur;
+                if(duration < 10000)
+                {
+                    [self toReady];
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    if(mode == Showing)
+    {
+        last_Key = k;
+        if(k == Key_Escape || c == 'f')
+        {
+            [self toReady];
+            return true;
+        }
+        if(k == Key_Delete)
+        {
+            [self backSpace];
+            return true;
+        }
+        if([self isLetter:k])
+        {
+            [self handleLetter:k];
+            return true;
+        }
+        return false;
+    }
+    if(mode == sleeping)
+    {
+        last_Key = k;
+        if(k == Key_Grave)
+        {
+            [self toReady];
+            return true;
+        }
+    }
+    last_Key = k;
+    return false;
+}
+
++ (bool) handleKeyPress:(CGKeyCode)k
+{
+    
+    WindowController* instance = [WindowController instance];
+    return [instance handleKeyPress_:k];
+
 //    if(c == 0)
 //        return;
 //
@@ -399,15 +614,51 @@ char KeyCodeToChar(CGKeyCode k);
 //        [i append:c];
 //    }
 }
-NSMutableArray* enumAppButtons();
+NSMutableArray* getWindowLabels();
 - (void) enumButtons
 {
 //    [self setActiveAppName];
     [self observeApp];
-    array = enumAppButtons();
+    array = getWindowLabels();
     if(array.count == 0)
-        active = false;
-    //targetApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
-    //[[NSApplication sharedApplication] activateIgnoringOtherApps : YES];
+        mode = Ready;
 }
+- (char) CGKeyCode2Char:(CGKeyCode)k;
+{
+    switch (k)
+    {
+        case 0: return 'a';
+        case 1: return 's';
+        case 2: return 'd';
+        case 3: return 'f';
+        case 4: return 'h';
+        case 5: return 'g';
+        case 6: return 'z';
+        case 7: return 'x';
+        case 8: return 'c';
+        case 9: return 'v';
+        case 11: return 'b';
+        case 12: return 'q';
+        case 13: return 'w';
+        case 14: return 'e';
+        case 15: return 'r';
+        case 16: return 'y';
+        case 17: return 't';
+        case 31: return 'o';
+        case 32: return 'u';
+        case 34: return 'i';
+        case 35: return 'p';
+        case 37: return 'l';
+        case 38: return 'j';
+        case 40: return 'k';
+        case 45: return 'n';
+        case 46: return 'm';
+    }
+    return 0;
+}
+- (bool)isLetter:(CGKeyCode) k
+{
+    return [self CGKeyCode2Char:k] != 0;
+}
+
 @end

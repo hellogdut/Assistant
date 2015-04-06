@@ -11,12 +11,14 @@
 @implementation UIElementInfo
 
 @synthesize ref;
+@synthesize parentSubRole;
+@synthesize parentRole;
 @synthesize role;
 @synthesize subRole;
-@synthesize enable;
 @synthesize action;
 @synthesize point;
 @synthesize size;
+@synthesize type;
 
 
 @end

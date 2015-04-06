@@ -116,17 +116,17 @@
 			isa = PBXGroup;
 			children = (
 				2B95BA511AC91F9F004BDFD6 /* PreviewAssistantTests.m */,
-				2B95BA4F1AC91F9F004BDFD6 /* Supporting Files */,
+				2B95BA4F1AC91F9F004BDFD6 /* df */,
 			);
 			path = PreviewAssistantTests;
 			sourceTree = "<group>";
 		};
-		2B95BA4F1AC91F9F004BDFD6 /* Supporting Files */ = {
+		2B95BA4F1AC91F9F004BDFD6 /* df */ = {
 			isa = PBXGroup;
 			children = (
 				2B95BA501AC91F9F004BDFD6 /* Info.plist */,
 			);
-			name = "Supporting Files";
+			name = df;
 			sourceTree = "<group>";
 		};
 		2BC433591ACE8D6F00736BEA /* Utility */ = {
