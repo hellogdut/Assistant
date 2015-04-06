@@ -16,6 +16,7 @@
 #include <time.h>
 
 
+
 int mouseSpeed = 30;
 int scrollSpeed = 20;
 
@@ -271,7 +272,6 @@ bool isCloseBtn(AXUIElementRef elem)
     AXError error = nil;
     CFTypeRef role;
     
-    // should be kAXChildrenAttribute
     error = AXUIElementCopyAttributeValue(elem, kAXRoleDescriptionAttribute, (CFTypeRef *)&role);
     //NSLog(@"the role of elem  %@  is %@",elem,role);
     NSString *a = (__bridge NSString *)role;
@@ -296,6 +296,7 @@ bool isEnable(AXUIElementRef elem)
 void enumChilds(AXUIElementRef elem,NSPointerArray* arr)
 {
     
+    NSLog(@"elem is %@",elem);
     //    stringCopyable(elem);
     AXError error = nil;
     CFArrayRef cfchilds = nil;
@@ -441,7 +442,6 @@ NSString* getElemType(AXUIElementRef elem)
         type = @"button";
         return type;
     }
-    
     return type;
     
 }
@@ -642,20 +642,20 @@ char KeyCodeToChar(CGKeyCode k)
 //    return CGEventGetLocation(ourEvent);
 //}
 
-//void setCursorPos(NSPoint pt)
-//{
-//    CGWarpMouseCursorPosition(pt);
-//}
-//
+void setCursorPos(NSPoint pt)
+{
+    CGWarpMouseCursorPosition(pt);
+}
 
 
-//void sendMouseSingleClick(CGEventRef down,CGEventRef up)
-//{
-//    CGEventPost(kCGSessionEventTap, down);
-//    CGEventPost(kCGSessionEventTap, up);
-//    CFRelease(down);
-//    CFRelease(up);
-//}
+
+void sendMouseSingleClick(CGEventRef down,CGEventRef up)
+{
+    CGEventPost(kCGSessionEventTap, down);
+    CGEventPost(kCGSessionEventTap, up);
+    CFRelease(down);
+    CFRelease(up);
+}
 //void sendMouseClickLeft()
 //{
 //    CGEventRef ourEvent = CGEventCreate(NULL);
@@ -665,6 +665,17 @@ char KeyCodeToChar(CGKeyCode k)
 //    sendMouseSingleClick(down,up);
 //
 //}
+
+void sendMouseClickLeft(NSPoint pt)
+{
+//    CGEventRef ourEvent = CGEventCreate(NULL);
+//    NSPoint pt = CGEventGetLocation(ourEvent);
+    CGEventRef down = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseDown, pt, 1);
+    CGEventRef up = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseUp, pt, 1);
+    sendMouseSingleClick(down,up);
+
+}
+
 //void sendMouseClickRight()
 //{
 //    CGEventRef ourEvent = CGEventCreate(NULL);

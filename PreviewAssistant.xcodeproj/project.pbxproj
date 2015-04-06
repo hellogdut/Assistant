@@ -11,6 +11,7 @@
 		2B5F17AA1AD175B80012DF6B /* MyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5F17A91AD175B80012DF6B /* MyWindow.m */; };
 		2B5F17AD1AD175CB0012DF6B /* MyLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5F17AC1AD175CB0012DF6B /* MyLabel.m */; };
 		2B5F17B01AD175D90012DF6B /* WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5F17AF1AD175D90012DF6B /* WindowController.m */; };
+		2B8426B11AD25C7E00B65EFD /* UIElementInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8426B01AD25C7E00B65EFD /* UIElementInfo.m */; };
 		2B95BA3F1AC91F9F004BDFD6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B95BA3E1AC91F9F004BDFD6 /* AppDelegate.m */; };
 		2B95BA411AC91F9F004BDFD6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B95BA401AC91F9F004BDFD6 /* main.m */; };
 		2B95BA431AC91F9F004BDFD6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B95BA421AC91F9F004BDFD6 /* Images.xcassets */; };
@@ -38,6 +39,8 @@
 		2B5F17AC1AD175CB0012DF6B /* MyLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLabel.m; sourceTree = "<group>"; };
 		2B5F17AE1AD175D90012DF6B /* WindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowController.h; sourceTree = "<group>"; };
 		2B5F17AF1AD175D90012DF6B /* WindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowController.m; sourceTree = "<group>"; };
+		2B8426AF1AD25C7E00B65EFD /* UIElementInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIElementInfo.h; sourceTree = "<group>"; };
+		2B8426B01AD25C7E00B65EFD /* UIElementInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIElementInfo.m; sourceTree = "<group>"; };
 		2B95BA381AC91F9F004BDFD6 /* PreviewAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PreviewAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B95BA3C1AC91F9F004BDFD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B95BA3D1AC91F9F004BDFD6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -149,6 +152,8 @@
 			children = (
 				2B5F17AB1AD175CB0012DF6B /* MyLabel.h */,
 				2B5F17AC1AD175CB0012DF6B /* MyLabel.m */,
+				2B8426AF1AD25C7E00B65EFD /* UIElementInfo.h */,
+				2B8426B01AD25C7E00B65EFD /* UIElementInfo.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -273,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B5F17AD1AD175CB0012DF6B /* MyLabel.m in Sources */,
+				2B8426B11AD25C7E00B65EFD /* UIElementInfo.m in Sources */,
 				2B5F17B01AD175D90012DF6B /* WindowController.m in Sources */,
 				2B5F17AA1AD175B80012DF6B /* MyWindow.m in Sources */,
 				2B95BA411AC91F9F004BDFD6 /* main.m in Sources */,

@@ -63,15 +63,49 @@
     NSRect screen = NSScreen.mainScreen.frame;
     
 //    NSRect frameRect = NSMakeRect(x - 3,screen.size.height - y - h - 3,13 * [s length],20);
-    NSRect frameRect = NSMakeRect(x + w/2,screen.size.height - y - h/2 - 10,13 * [s length],20);
-//    NSLog(@"w = %f",w);
     
+    NSRect frameRect = NSMakeRect(x + w/2,screen.size.height - y - h/2 - 10,10 * [s length],20);
     label = [[NSTextView alloc] initWithFrame:frameRect];
-    
     [label setString:s];
     [label setDrawsBackground:NO];
     
     [self updateColor];
+    [label sizeToFit];
+    CGFloat wh = [label frame].size.width;
+    CGFloat ht = [label frame].size.height;
+    
+//    int posX = 0;
+//    int posY = screen.size.height - y - 10;
+//    if(w  50)
+//    {
+//        posX = x - wh;
+//    }
+//    else
+//    {
+//        posX = x + w - wh;
+//        
+//    }
+//    [label setFrame:NSMakeRect(posX, posY, wh, ht)];
+    
+    
+        int posX = w;
+        int posY = screen.size.height - y;
+        if(w < 50)
+        {
+            posX = x - w/2;
+            posY = posY - ht;
+            
+        }
+        else
+        {
+            posX = x + w - wh;
+            posY = posY - h/2 - ht/2;
+        }
+        [label setFrame:NSMakeRect(posX, posY, wh, ht)];
+    
+    
+    
+   
     
 }
 
@@ -82,26 +116,51 @@
     
     NSMutableAttributedString *attrstr = [[NSMutableAttributedString alloc] initWithString:str];
     
-    NSColor* background = [NSColor yellowColor];
-    NSColor* match = [NSColor colorWithDeviceRed:0.76 green:0.54 blue:0.34 alpha:1];
+    NSColor* buttonBackGround = [NSColor yellowColor];
+    NSColor* buttonMatch = [NSColor colorWithDeviceRed:0.76 green:0.54 blue:0.34 alpha:1];
     
-    NSDictionary *backGround = @{
+    NSColor* InputBackGround = [NSColor greenColor];
+    
+    
+    NSColor* background;
+    NSColor* match;
+    
+    if(role == button)
+    {
+        background = buttonBackGround;
+        match = buttonMatch;
+    }
+    else if (role == input)
+    {
+        background = InputBackGround;
+        match = buttonMatch;
+    }
+    
+    
+    
+    
+    NSDictionary *BackGround = @{
                                  NSBackgroundColorAttributeName : background,
                                  NSFontAttributeName : [NSFont fontWithName:@"Helvetica-Bold" size:12.0]
                                  };
 
-    NSDictionary *matchColor = @{
+    NSDictionary *Match = @{
                                  NSBackgroundColorAttributeName : background,
                                  NSForegroundColorAttributeName : match,
-                                 NSFontAttributeName : [NSFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                 NSFontAttributeName : [NSFont fontWithName:@"Helvetica-Bold" size:12.0]
                                  };
     
     
+
     
-    [attrstr setAttributes:backGround range:NSMakeRange(0,s.length)];
+    
+    
+    
+    
+    [attrstr setAttributes:BackGround range:NSMakeRange(0,s.length)];
     if(i > 0)
     {
-        [attrstr setAttributes:matchColor range:NSMakeRange(1,i)];
+        [attrstr setAttributes:Match range:NSMakeRange(1,i)];
         NSLog(@"NSForegroundColorAttributeName ");
     }
 
@@ -110,6 +169,13 @@
     [[self.label textStorage] setAttributedString:attrstr];
     
 }
+
+void setCursorPos(NSPoint pt);
+
+
+void sendMouseSingleClick(CGEventRef down,CGEventRef up);
+void sendMouseClickLeft(NSPoint pt);
+
 - (void) performAction;
 {
     if(role == button)
@@ -120,9 +186,16 @@
     }
     if(role == input)
     {
-        NSLog(@"kAXConfirmAction");
-        AXUIElementSetAttributeValue(elem, kAXFocusedAttribute,kCFBooleanTrue);
-        return;
+//        NSLog(@"kAXConfirmAction");
+//        AXUIElementSetAttributeValue(elem, kAXFocusedAttribute,kCFBooleanTrue);
+//        return;
+        CGDisplayHideCursor(kCGDirectMainDisplay);
+        NSPoint pt = NSMakePoint(x + w/2, y);
+        sendMouseClickLeft(pt);
+        CGDisplayHideCursor(kCGDirectMainDisplay);
+        
+        
+        
 
     }
 }
