@@ -54,17 +54,20 @@ enum Mode {
 @property (readwrite) int scrollSpeed;
 
 
+
 /* obsetver */
 @property (readwrite) AXUIElementRef observedApp;
 @property (readwrite) AXObserverRef deactivatedObserver;
 @property (readwrite) AXObserverRef moveObserver;
 @property (readwrite) AXObserverRef hideObserver;
 @property (readwrite) AXObserverRef resizeObserver;
-
 /* Special Key */
-
 @property (readwrite) CGKeyCode last_Key;
 @property (readwrite) clock_t last_Esc;
+
+/* word  for label */
+@property (readwrite) NSArray* singleWord;   
+@property (readwrite) NSArray* doubleWord;
 
 
 - (id) init;

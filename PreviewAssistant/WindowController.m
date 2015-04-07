@@ -16,8 +16,8 @@ static NSObject *instance_ = nil;
 @synthesize window,array,view,mode;
 @synthesize scrollSpeed;
 @synthesize observedApp,deactivatedObserver,moveObserver,hideObserver,resizeObserver;
-@synthesize last_Esc;
-@synthesize  last_Key;
+@synthesize last_Key,last_Esc;
+@synthesize singleWord,doubleWord;
 
 - (id) init
 {
@@ -42,6 +42,46 @@ static NSObject *instance_ = nil;
     last_Key = 0;
     array = nil;
     mode = Ready;
+    
+    /*  word list
+     M P J K V L Q W E F B N
+     
+     MQ MW ME MA MF MS MD MP MG
+     PQ PW PE PA PS PD PV PF
+     JQ JW JE JA JS JD JF
+     KQ KW KE KR KA KS KD KF
+     VQ VP VJ VK VL VH VU
+     LQ LW LE LA LS LD LF
+     QH QJ QK QL QM QP
+     WH WJ WK WL WM WP
+     EH EJ EK EL EM EP
+     FQ FJ FK FL FP FM
+     BQ BW BE BA BS BD BF
+     NQ NW NE NA NS ND NP
+     */
+//    singleWord = [[NSArray alloc] initWithObjects:@"M",@"P",@"J",@"K",@"V",@"L",@"Q",@"W",@"E",@"F",@"B",@"N",nil];
+//    NSArray* m = [[NSArray alloc] initWithObjects:@"MQ",@"MW",@"ME",@"MA",@"MF",@"MS",@"MD",@"MP",@"MG", nil];
+//    
+//    NSArray* p = [[NSArray alloc] initWithObjects:@"PQ",@"PW",@"PE",@"PA",@"PS",@"PD",@"PV",@"PF",nil];
+//    NSArray* j = [[NSArray alloc] initWithObjects:@"JQ",@"JW",@"JE",@"JA",@"JS",@"JD",@"JF",nil];
+//    NSArray* k = [[NSArray alloc] initWithObjects:@"KQ",@"KW",@"KE",@"KR",@"KA",@"KS",@"KD",@"KF",nil];
+//    NSArray* v = [[NSArray alloc] initWithObjects:@"VQ",@"VP",@"VJ",@"VK",@"VL",@"VH",@"VU",nil];
+//    NSArray* l = [[NSArray alloc] initWithObjects:@"LQ",@"LW",@"LE",@"LA",@"LS",@"LD",@"LF",nil];
+//    NSArray* q = [[NSArray alloc] initWithObjects:@"QH",@"QJ",@"QK",@"QL",@"QM",@"QP",nil];
+//    NSArray* w = [[NSArray alloc] initWithObjects:@"WH",@"WJ",@"WK",@"WL",@"WM",@"WP",nil];
+//    NSArray* e = [[NSArray alloc] initWithObjects:@"EH",@"EJ",@"EK",@"EL",@"EM",@"EP",nil];
+//    NSArray* f = [[NSArray alloc] initWithObjects:@"FQ",@"FJ",@"FK",@"FL",@"FP",@"FM",nil];
+//    NSArray* b = [[NSArray alloc] initWithObjects:@"BQ",@"BW",@"BE",@"BA",@"BS",@"BD",@"BF",nil];
+//    NSArray* n = [[NSArray alloc] initWithObjects:@"NQ",@"NW",@"NE",@"NA",@"NS",@"ND",@"NP",nil];
+//    NSArray* doubleWord = [[NSArray alloc] initWithObjects:m,p,j,k,v,l,q,w,e,f,b,n,nil];
+//    int count = 0;
+//    for(int i = 0;i < doubleWord.count;++i)
+//    {
+//        NSArray* arr = (NSArray*)[doubleWord objectAtIndex:i];
+//        count += [arr count];
+//    }
+//    NSLog(@"arr count :%d",count);
+    
     
     
 }
@@ -74,8 +114,6 @@ static NSObject *instance_ = nil;
 
     
     int n = [word count];
-    int c = array.count;
-    
     for(int i = 0;i < array.count;++i)
     {
         MyLabel* label = (MyLabel*)[array objectAtIndex:i];
@@ -195,7 +233,9 @@ void observeAppCallBack( AXObserverRef observer, AXUIElementRef element, CFStrin
         {
             [instance userCancel];
             [instance unObserveApp];
-            [WindowController handleKeyPress:0x03];
+//            [NSThread sleepForTimeInterval:0.5];
+//            [WindowController handleKeyPress:0x03];
+        
         }
         else
         {

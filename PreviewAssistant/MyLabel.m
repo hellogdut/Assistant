@@ -60,11 +60,11 @@
 
 - (void) updateLabel
 {
-    NSRect screen = NSScreen.mainScreen.frame;
+    NSRect screen =  NSScreen.mainScreen.frame;
     
     
 //    NSRect frameRect = NSMakeRect(x - 3,screen.size.height - y - h - 3,13 * [s length],20);
-    NSLog(s);
+    
     NSRect frameRect = NSMakeRect(x + w/2,screen.size.height - y - h/2 - 10,10 * [s length],20);
     label = [[NSTextView alloc] initWithFrame:frameRect];
     [label setString:s];
