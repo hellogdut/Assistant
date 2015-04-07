@@ -672,12 +672,12 @@ NSMutableArray* getWindowLabels()
         NSLog(@"x = %f,y = %f,w = %f,h = %f",p.x,p.y,s.width,s.height);
         
         
-        AXUIElementSetAttributeValue(window,kAXSizeAttribute,_size);
-        AXUIElementSetAttributeValue(window,kAXPositionAttribute,_pt);
-        AXUIElementSetAttributeValue(window,kAXFrontmostAttribute,kCFBooleanFalse);
+//        AXUIElementSetAttributeValue(window,kAXSizeAttribute,_size);
+//        AXUIElementSetAttributeValue(window,kAXPositionAttribute,_pt);
+//        AXUIElementSetAttributeValue(window,kAXFrontmostAttribute,kCFBooleanFalse);
         p = getElementPos(window);
         s = getElementSize(window);
-        
+//
         NSLog(@"x = %f,y = %f,w = %f,h = %f",p.x,p.y,s.width,s.height);
         
         

@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B3836531AC9AB99000B79CA /* Utility.h in Sources */ = {isa = PBXBuildFile; fileRef = 2B3836521AC9AB99000B79CA /* Utility.h */; };
-		2B5F17AA1AD175B80012DF6B /* MyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5F17A91AD175B80012DF6B /* MyWindow.m */; };
-		2B5F17AD1AD175CB0012DF6B /* MyLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5F17AC1AD175CB0012DF6B /* MyLabel.m */; };
-		2B5F17B01AD175D90012DF6B /* WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5F17AF1AD175D90012DF6B /* WindowController.m */; };
-		2B8426B11AD25C7E00B65EFD /* UIElementInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8426B01AD25C7E00B65EFD /* UIElementInfo.m */; };
-		2B95BA3F1AC91F9F004BDFD6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B95BA3E1AC91F9F004BDFD6 /* AppDelegate.m */; };
-		2B95BA411AC91F9F004BDFD6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B95BA401AC91F9F004BDFD6 /* main.m */; };
-		2B95BA431AC91F9F004BDFD6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B95BA421AC91F9F004BDFD6 /* Images.xcassets */; };
-		2B95BA461AC91F9F004BDFD6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B95BA441AC91F9F004BDFD6 /* MainMenu.xib */; };
+		2B698D6D1AD441D10012F1DB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B698D5B1AD441D10012F1DB /* AppDelegate.m */; };
+		2B698D6E1AD441D10012F1DB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B698D5D1AD441D10012F1DB /* MainMenu.xib */; };
+		2B698D6F1AD441D10012F1DB /* globalkeypress.c in Sources */ = {isa = PBXBuildFile; fileRef = 2B698D5F1AD441D10012F1DB /* globalkeypress.c */; };
+		2B698D701AD441D10012F1DB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B698D601AD441D10012F1DB /* Images.xcassets */; };
+		2B698D711AD441D10012F1DB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B698D611AD441D10012F1DB /* Info.plist */; };
+		2B698D721AD441D10012F1DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B698D631AD441D10012F1DB /* main.m */; };
+		2B698D731AD441D10012F1DB /* MyLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B698D651AD441D10012F1DB /* MyLabel.m */; };
+		2B698D741AD441D10012F1DB /* MyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B698D671AD441D10012F1DB /* MyWindow.m */; };
+		2B698D751AD441D10012F1DB /* UIElementInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B698D691AD441D10012F1DB /* UIElementInfo.m */; };
+		2B698D761AD441D10012F1DB /* WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B698D6C1AD441D10012F1DB /* WindowController.m */; };
 		2B95BA521AC91F9F004BDFD6 /* PreviewAssistantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B95BA511AC91F9F004BDFD6 /* PreviewAssistantTests.m */; };
 /* End PBXBuildFile section */
 
@@ -30,24 +31,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2B3836521AC9AB99000B79CA /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
-		2B3836541AC9AECA000B79CA /* KeyCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyCode.h; sourceTree = "<group>"; };
-		2B3836551AC9B7F6000B79CA /* Assistant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Assistant.h; sourceTree = "<group>"; };
-		2B5F17A81AD175B80012DF6B /* MyWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWindow.h; sourceTree = "<group>"; };
-		2B5F17A91AD175B80012DF6B /* MyWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWindow.m; sourceTree = "<group>"; };
-		2B5F17AB1AD175CB0012DF6B /* MyLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLabel.h; sourceTree = "<group>"; };
-		2B5F17AC1AD175CB0012DF6B /* MyLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLabel.m; sourceTree = "<group>"; };
-		2B5F17AE1AD175D90012DF6B /* WindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowController.h; sourceTree = "<group>"; };
-		2B5F17AF1AD175D90012DF6B /* WindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowController.m; sourceTree = "<group>"; };
-		2B8426AF1AD25C7E00B65EFD /* UIElementInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIElementInfo.h; sourceTree = "<group>"; };
-		2B8426B01AD25C7E00B65EFD /* UIElementInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIElementInfo.m; sourceTree = "<group>"; };
+		2B698D5A1AD441D10012F1DB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		2B698D5B1AD441D10012F1DB /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		2B698D5C1AD441D10012F1DB /* Assistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Assistant.h; sourceTree = "<group>"; };
+		2B698D5E1AD441D10012F1DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		2B698D5F1AD441D10012F1DB /* globalkeypress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = globalkeypress.c; sourceTree = "<group>"; };
+		2B698D601AD441D10012F1DB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2B698D611AD441D10012F1DB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2B698D621AD441D10012F1DB /* KeyCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyCode.h; sourceTree = "<group>"; };
+		2B698D631AD441D10012F1DB /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2B698D641AD441D10012F1DB /* MyLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLabel.h; sourceTree = "<group>"; };
+		2B698D651AD441D10012F1DB /* MyLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLabel.m; sourceTree = "<group>"; };
+		2B698D661AD441D10012F1DB /* MyWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWindow.h; sourceTree = "<group>"; };
+		2B698D671AD441D10012F1DB /* MyWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWindow.m; sourceTree = "<group>"; };
+		2B698D681AD441D10012F1DB /* UIElementInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIElementInfo.h; sourceTree = "<group>"; };
+		2B698D691AD441D10012F1DB /* UIElementInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIElementInfo.m; sourceTree = "<group>"; };
+		2B698D6A1AD441D10012F1DB /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		2B698D6B1AD441D10012F1DB /* WindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowController.h; sourceTree = "<group>"; };
+		2B698D6C1AD441D10012F1DB /* WindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowController.m; sourceTree = "<group>"; };
 		2B95BA381AC91F9F004BDFD6 /* PreviewAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PreviewAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2B95BA3C1AC91F9F004BDFD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2B95BA3D1AC91F9F004BDFD6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		2B95BA3E1AC91F9F004BDFD6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2B95BA401AC91F9F004BDFD6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2B95BA421AC91F9F004BDFD6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		2B95BA451AC91F9F004BDFD6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2B95BA4B1AC91F9F004BDFD6 /* PreviewAssistantTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreviewAssistantTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B95BA501AC91F9F004BDFD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B95BA511AC91F9F004BDFD6 /* PreviewAssistantTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreviewAssistantTests.m; sourceTree = "<group>"; };
@@ -71,10 +73,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B698D591AD441D10012F1DB /* PreviewAssistant */ = {
+			isa = PBXGroup;
+			children = (
+				2B698D5A1AD441D10012F1DB /* AppDelegate.h */,
+				2B698D5B1AD441D10012F1DB /* AppDelegate.m */,
+				2B698D5C1AD441D10012F1DB /* Assistant.h */,
+				2B698D5D1AD441D10012F1DB /* MainMenu.xib */,
+				2B698D5F1AD441D10012F1DB /* globalkeypress.c */,
+				2B698D601AD441D10012F1DB /* Images.xcassets */,
+				2B698D611AD441D10012F1DB /* Info.plist */,
+				2B698D621AD441D10012F1DB /* KeyCode.h */,
+				2B698D631AD441D10012F1DB /* main.m */,
+				2B698D641AD441D10012F1DB /* MyLabel.h */,
+				2B698D651AD441D10012F1DB /* MyLabel.m */,
+				2B698D661AD441D10012F1DB /* MyWindow.h */,
+				2B698D671AD441D10012F1DB /* MyWindow.m */,
+				2B698D681AD441D10012F1DB /* UIElementInfo.h */,
+				2B698D691AD441D10012F1DB /* UIElementInfo.m */,
+				2B698D6A1AD441D10012F1DB /* Utility.h */,
+				2B698D6B1AD441D10012F1DB /* WindowController.h */,
+				2B698D6C1AD441D10012F1DB /* WindowController.m */,
+			);
+			path = PreviewAssistant;
+			sourceTree = "<group>";
+		};
 		2B95BA2F1AC91F9F004BDFD6 = {
 			isa = PBXGroup;
 			children = (
-				2B95BA3A1AC91F9F004BDFD6 /* PreviewAssistant */,
+				2B698D591AD441D10012F1DB /* PreviewAssistant */,
 				2B95BA4E1AC91F9F004BDFD6 /* PreviewAssistantTests */,
 				2B95BA391AC91F9F004BDFD6 /* Products */,
 			);
@@ -87,29 +114,6 @@
 				2B95BA4B1AC91F9F004BDFD6 /* PreviewAssistantTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		2B95BA3A1AC91F9F004BDFD6 /* PreviewAssistant */ = {
-			isa = PBXGroup;
-			children = (
-				2BC433661ACE8DDC00736BEA /* APP */,
-				2BC4335C1ACE8D9D00736BEA /* View */,
-				2BC4335B1ACE8D9700736BEA /* Model */,
-				2BC4335A1ACE8D9300736BEA /* Controller */,
-				2BC433591ACE8D6F00736BEA /* Utility */,
-				2B3836551AC9B7F6000B79CA /* Assistant.h */,
-				2B95BA3B1AC91F9F004BDFD6 /* Supporting Files */,
-			);
-			path = PreviewAssistant;
-			sourceTree = "<group>";
-		};
-		2B95BA3B1AC91F9F004BDFD6 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				2B95BA3C1AC91F9F004BDFD6 /* Info.plist */,
-				2B95BA401AC91F9F004BDFD6 /* main.m */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		2B95BA4E1AC91F9F004BDFD6 /* PreviewAssistantTests */ = {
@@ -127,55 +131,6 @@
 				2B95BA501AC91F9F004BDFD6 /* Info.plist */,
 			);
 			name = df;
-			sourceTree = "<group>";
-		};
-		2BC433591ACE8D6F00736BEA /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				2B3836521AC9AB99000B79CA /* Utility.h */,
-				2B3836541AC9AECA000B79CA /* KeyCode.h */,
-			);
-			name = Utility;
-			sourceTree = "<group>";
-		};
-		2BC4335A1ACE8D9300736BEA /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				2B5F17AE1AD175D90012DF6B /* WindowController.h */,
-				2B5F17AF1AD175D90012DF6B /* WindowController.m */,
-			);
-			name = Controller;
-			sourceTree = "<group>";
-		};
-		2BC4335B1ACE8D9700736BEA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				2B5F17AB1AD175CB0012DF6B /* MyLabel.h */,
-				2B5F17AC1AD175CB0012DF6B /* MyLabel.m */,
-				2B8426AF1AD25C7E00B65EFD /* UIElementInfo.h */,
-				2B8426B01AD25C7E00B65EFD /* UIElementInfo.m */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
-		2BC4335C1ACE8D9D00736BEA /* View */ = {
-			isa = PBXGroup;
-			children = (
-				2B5F17A81AD175B80012DF6B /* MyWindow.h */,
-				2B5F17A91AD175B80012DF6B /* MyWindow.m */,
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
-		2BC433661ACE8DDC00736BEA /* APP */ = {
-			isa = PBXGroup;
-			children = (
-				2B95BA3D1AC91F9F004BDFD6 /* AppDelegate.h */,
-				2B95BA3E1AC91F9F004BDFD6 /* AppDelegate.m */,
-				2B95BA421AC91F9F004BDFD6 /* Images.xcassets */,
-				2B95BA441AC91F9F004BDFD6 /* MainMenu.xib */,
-			);
-			name = APP;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,8 +213,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B95BA431AC91F9F004BDFD6 /* Images.xcassets in Resources */,
-				2B95BA461AC91F9F004BDFD6 /* MainMenu.xib in Resources */,
+				2B698D701AD441D10012F1DB /* Images.xcassets in Resources */,
+				2B698D711AD441D10012F1DB /* Info.plist in Resources */,
+				2B698D6E1AD441D10012F1DB /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,13 +233,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B5F17AD1AD175CB0012DF6B /* MyLabel.m in Sources */,
-				2B8426B11AD25C7E00B65EFD /* UIElementInfo.m in Sources */,
-				2B5F17B01AD175D90012DF6B /* WindowController.m in Sources */,
-				2B5F17AA1AD175B80012DF6B /* MyWindow.m in Sources */,
-				2B95BA411AC91F9F004BDFD6 /* main.m in Sources */,
-				2B3836531AC9AB99000B79CA /* Utility.h in Sources */,
-				2B95BA3F1AC91F9F004BDFD6 /* AppDelegate.m in Sources */,
+				2B698D721AD441D10012F1DB /* main.m in Sources */,
+				2B698D761AD441D10012F1DB /* WindowController.m in Sources */,
+				2B698D741AD441D10012F1DB /* MyWindow.m in Sources */,
+				2B698D731AD441D10012F1DB /* MyLabel.m in Sources */,
+				2B698D6D1AD441D10012F1DB /* AppDelegate.m in Sources */,
+				2B698D6F1AD441D10012F1DB /* globalkeypress.c in Sources */,
+				2B698D751AD441D10012F1DB /* UIElementInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,10 +262,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		2B95BA441AC91F9F004BDFD6 /* MainMenu.xib */ = {
+		2B698D5D1AD441D10012F1DB /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2B95BA451AC91F9F004BDFD6 /* Base */,
+				2B698D5E1AD441D10012F1DB /* Base */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";

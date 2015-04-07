@@ -32,7 +32,7 @@
 }
 - (void) back
 {
-
+    if(s == nil) return;
     i--;
     if(i < 0)
         i = 0;
@@ -47,7 +47,7 @@
 }
 - (void) append:(char) c
 {
-    if(i < (int)s.length - 2)
+    if(s != nil && i < (int)s.length - 2)
     {
         if(toupper((int)[s characterAtIndex : i + 1]) == toupper((int)c))
         {
@@ -67,6 +67,9 @@
     
 //    NSRect frameRect = NSMakeRect(x + w/2,screen.size.height - y - h/2 - 10,10 * [s length],20);
     label = [[NSTextView alloc] initWithFrame:frameRect];
+    
+    [label setSelectable:NO];
+    
     [label setString:s];
     [label setDrawsBackground:NO];
     
@@ -96,14 +99,14 @@
 //    NSLog(@"posX :%f,posY : %f",posX,posY);
         if(w < 100)
         {
-            posX = x - MIN(w,wh);
-            posY = posY - MIN(h,ht);
+            posX = x - w;
+            posY = posY - h - ht;;
             
         }
         else
         {
             posX = x + w*0.7 - wh;
-            posY = posY - h/2 - ht/2;
+            posY = posY - h - ht;
         }
         [label setFrame:NSMakeRect(posX, posY, wh, ht)];
 //        NSLog(@"posX :%f,posY : %f",posX,posY);
@@ -185,6 +188,7 @@ void sendMouseClickLeft(NSPoint pt);
     
     if(role == button)
     {
+        
         err = AXUIElementPerformAction(elem,kAXPressAction);
         NSPoint pt = NSMakePoint(x + w/2 , y);
         setCursorPos(pt);
@@ -193,16 +197,16 @@ void sendMouseClickLeft(NSPoint pt);
         {
             sendMouseClickLeft(pt);
         }
-
-        
         return;
     }
     if(role == input)
     {
-        CGDisplayHideCursor(kCGDirectMainDisplay);
+        [label setHidden:YES];
+        //CGDisplayHideCursor(kCGDirectMainDisplay);
         NSPoint pt = NSMakePoint(x + w/2 , y);
         sendMouseClickLeft(pt);
-        CGDisplayHideCursor(kCGDirectMainDisplay);
+        
+        //CGDisplayHideCursor(kCGDirectMainDisplay);
         
     }
 }

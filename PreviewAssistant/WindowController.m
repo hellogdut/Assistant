@@ -258,6 +258,7 @@ static NSObject *instance_ = nil;
     for(MyLabel* i in array)
     {
         if([i isSelected])  [i append:c];
+        [i updateColor];
     }
 }
 
@@ -420,8 +421,6 @@ pid_t activeAppRef();
 
 - (void) userCancel
 {
-    window.level = 1;
-    [window update];
     
     [self hideAllLabels];
     mode = Ready;
@@ -521,7 +520,7 @@ pid_t activeAppRef();
         if([i isOn])
         {
             NSLog(@"%@",i.s);
-            mode = Ready;
+            //mode = Ready;
             
 //            if(i.role == input)
 //                mode = InSerting;
@@ -529,11 +528,23 @@ pid_t activeAppRef();
 //            {
 //                mode = Ready;
 //            }
+//            for(MyLabel* i in array)
+//            {
+//                [i hide];
+//                //        [[i label] removeFromSuperviewWithoutNeedingDisplay];
+//            }
+//            
+//            [view updateConstraints];
+//            for(MyLabel* i in array)
+//            {
+//                [i hide];
+//                //[[i label] removeFromSuperviewWithoutNeedingDisplay];
+//            }
+//            [view updateConstraints];
             [i performAction];
-            [self hideAllLabels];
+            [self toReady];
             //[[instance targetApp] unhide];
             // [[instance targetApp] activateWithOptions:NSApplicationActivateIgnoringOtherApps];
-            
             break;
         }
     }
