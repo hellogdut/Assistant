@@ -36,7 +36,7 @@ static NSObject *instance_ = nil;
 }
 - (void) reset_
 {
-    scrollSpeed = 20;
+    scrollSpeed = 2;
     observedApp = deactivatedObserver = moveObserver = hideObserver = resizeObserver = nil;
     last_Esc = 0;
     last_Key = 0;
@@ -420,6 +420,8 @@ pid_t activeAppRef();
 
 - (void) userCancel
 {
+    window.level = 1;
+    [window update];
     
     [self hideAllLabels];
     mode = Ready;
@@ -444,6 +446,7 @@ pid_t activeAppRef();
 }
 - (void) toSleeping
 {
+    [self userCancel];
     mode = sleeping;
 }
 - (void) toReady
@@ -568,6 +571,15 @@ char KeyCodeToChar(CGKeyCode k);
         
         if(c == 'f')
         {
+            window.level = CGShieldingWindowLevel();
+            window.update;
+            NSArray *screens = NSScreen.screens;
+            for(int i = 0;i < screens.count;++i)
+            {
+                NSRect frame = [[screens objectAtIndex:i] frame];
+                NSLog(@"screen %d :x  = %f,y = %f,height : %f,width = %f,",i,frame.origin.x,frame.origin.y,frame.size.height,frame.size.width);
+            }
+            
             mode = Showing;
             [self enumButtons];
             [self generateWord];
@@ -646,6 +658,12 @@ char KeyCodeToChar(CGKeyCode k);
             [self handleLetter:k];
             return true;
         }
+        if(k == Key_Grave)
+        {
+            [self toSleeping];
+            return true;
+        }
+
         return false;
     }
     if(mode == sleeping)

@@ -62,7 +62,7 @@
 {
 //    NSRect screen =  NSScreen.mainScreen.frame;
      NSRect screen =  NSScreen.mainScreen.frame;
-    NSLog(@"height :%f,width : %f",screen.size.height,screen.size.width);
+//    NSLog(@"height :%f,width : %f",screen.size.height,screen.size.width);
     NSRect frameRect = NSMakeRect(x - 3,screen.size.height - y - h - 3,13 * [s length],20);
     
 //    NSRect frameRect = NSMakeRect(x + w/2,screen.size.height - y - h/2 - 10,10 * [s length],20);
@@ -92,12 +92,12 @@
     
         int posX = x;
         int posY = screen.size.height - y;
-    NSLog(@"screen.size.height :%f,y : %f",screen.size.height,y);
-    NSLog(@"posX :%f,posY : %f",posX,posY);
+//    NSLog(@"screen.size.height :%f,y : %f",screen.size.height,y);
+//    NSLog(@"posX :%f,posY : %f",posX,posY);
         if(w < 100)
         {
-            posX = x - w/2;
-            posY = posY - ht;
+            posX = x - MIN(w,wh);
+            posY = posY - MIN(h,ht);
             
         }
         else
@@ -106,7 +106,7 @@
             posY = posY - h/2 - ht/2;
         }
         [label setFrame:NSMakeRect(posX, posY, wh, ht)];
-        NSLog(@"posX :%f,posY : %f",posX,posY);
+//        NSLog(@"posX :%f,posY : %f",posX,posY);
    
     
 }

@@ -20,7 +20,7 @@
 
 
 int mouseSpeed = 30;
-int scrollSpeed = 20;
+int scrollSpeed = 1;
 
 
 bool isActive = true;
@@ -307,28 +307,57 @@ pid_t activeAppRef()
     NSString* appName = [activeApp objectForKey:@"NSApplicationName"];
     NSLog(@"ActiveApp is :%@",appName);
     CFArrayRef windowList = CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenOnly, kCGNullWindowID);
-    NSArray* arr = CFBridgingRelease(windowList);
+//    NSArray* arr = CFBridgingRelease(windowList);
+//    pid_t pid = nil;
+//    for (NSMutableDictionary* entry in arr)
+//    {
+//        
+//        NSString* owner = [entry objectForKey:(id)kCGWindowOwnerName];
+//        NSInteger layer = [entry objectForKey:(id)kCGWindowLayer];
+//        
+//        if(![appName isEqualToString:owner])
+//        {
+//            continue;
+//        }
+//        if(layer != 39) // front-most-window  (0 equal 39 ? )
+//        {
+//            continue;
+//        }
+//        NSLog(@"NSMutableDictionary: %@",entry);
+//        
+//        
+//        // Get window PID
+//        pid = [[entry objectForKey:(id)kCGWindowOwnerPID] intValue];
+//        NSLog(@"pid is :%d",pid);
+//        
+//    }
     pid_t pid = nil;
-    for (NSMutableDictionary* entry in arr)
-    {
+    for (int i = 0; i < CFArrayGetCount(windowList);i++) {
         
-        NSString* owner = [entry objectForKey:(id)kCGWindowOwnerName];
-        NSInteger layer = [entry objectForKey:(id)kCGWindowLayer];
+        CFDictionaryRef windict = CFArrayGetValueAtIndex(windowList, i);
+        CFNumberRef layernum = CFDictionaryGetValue(windict, kCGWindowLayer);
         
-        if(![appName isEqualToString:owner])
-        {
-            continue;
-        }
-        if(layer != 39) // front-most-window  (0 equal 39 ? )
-        {
-            continue;
+        
+        if (layernum) {
+            int layer;
+            CFNumberGetValue(layernum,  kCFNumberIntType, &layer);
+            if (layer != 0) continue;
         }
         
+        CFStringRef ownerName = CFDictionaryGetValue(windict,kCGWindowOwnerName);
+        if(ownerName)
+        {
+            NSString* owner = (__bridge NSString*)ownerName;
+            if(![appName isEqualToString:owner]) continue;
+        }
         
-        // Get window PID
-        pid = [[entry objectForKey:(id)kCGWindowOwnerPID] intValue];
-        NSLog(@"pid is :%d",pid);
-        
+        CFNumberRef PID = CFDictionaryGetValue(windict,kCGWindowOwnerPID);
+        if(PID)
+        {
+            
+            CFNumberGetValue(PID,  kCFNumberIntType, &pid);
+            
+        }
     }
     return pid;
 }
@@ -368,7 +397,13 @@ NSPointerArray* getAppMainWindow()
     {
         AXUIElementRef window = (AXUIElementRef) CFArrayGetValueAtIndex(windows, i);
         CFBooleanRef main;
-        [arr addPointer:window];
+        AXUIElementCopyAttributeValue(window,kAXMainAttribute,(CFTypeRef *)&main);
+        if(main == kCFBooleanTrue)
+        {
+            [arr addPointer:window];
+        }
+
+        
 //        AXUIElementCopyAttributeValue(window,kAXMainAttribute,(CFTypeRef *)&main);
 //        if(main == kCFBooleanTrue)
 //        {
@@ -451,8 +486,6 @@ CGSize getElementSuitableSize(AXUIElementRef elem)
         size.height = windowSize.height;
     return size;
 }
-
-
 
 CGPoint getElementPos(AXUIElementRef elem)
 {
@@ -616,12 +649,39 @@ NSMutableArray* getWindowLabels()
 //    AXUIElementRef mainWindow = getAppMainWindow();
     NSPointerArray* arr = getAppMainWindow();
     
+    
     if(arr == nil)
         return nil;
     for(int i = 0;i < arr.count;++i)
     {
         AXUIElementRef window = [arr pointerAtIndex:i];
-        windowSize = getElementSize(window);
+        
+        
+        NSRect frame = NSScreen.mainScreen.frame;
+        
+        NSSize size = NSMakeSize(frame.size.width, frame.size.height);
+        
+        NSPoint pt = NSMakePoint(0, 32);
+        
+        CFTypeRef _size = (CFTypeRef)(AXValueCreate(kAXValueCGSizeType, (const void *)&size));
+        CFTypeRef _pt  = (CFTypeRef)(AXValueCreate(kAXValueCGPointType,(const void*)&pt));
+        
+        CGPoint p = getElementPos(window);
+        CGSize  s = getElementSize(window);
+        
+        NSLog(@"x = %f,y = %f,w = %f,h = %f",p.x,p.y,s.width,s.height);
+        
+        
+        AXUIElementSetAttributeValue(window,kAXSizeAttribute,_size);
+        AXUIElementSetAttributeValue(window,kAXPositionAttribute,_pt);
+        AXUIElementSetAttributeValue(window,kAXFrontmostAttribute,kCFBooleanFalse);
+        p = getElementPos(window);
+        s = getElementSize(window);
+        
+        NSLog(@"x = %f,y = %f,w = %f,h = %f",p.x,p.y,s.width,s.height);
+        
+        
+        
         enumWindowChildren(window, children);
         
     }
