@@ -60,18 +60,19 @@
 
 - (void) updateLabel
 {
-    NSRect screen =  NSScreen.mainScreen.frame;
+//    NSRect screen =  NSScreen.mainScreen.frame;
+     NSRect screen =  NSScreen.mainScreen.frame;
+    NSLog(@"height :%f,width : %f",screen.size.height,screen.size.width);
+    NSRect frameRect = NSMakeRect(x - 3,screen.size.height - y - h - 3,13 * [s length],20);
     
-    
-//    NSRect frameRect = NSMakeRect(x - 3,screen.size.height - y - h - 3,13 * [s length],20);
-    
-    NSRect frameRect = NSMakeRect(x + w/2,screen.size.height - y - h/2 - 10,10 * [s length],20);
+//    NSRect frameRect = NSMakeRect(x + w/2,screen.size.height - y - h/2 - 10,10 * [s length],20);
     label = [[NSTextView alloc] initWithFrame:frameRect];
     [label setString:s];
     [label setDrawsBackground:NO];
     
     [self updateColor];
     [label sizeToFit];
+    
     CGFloat wh = [label frame].size.width;
     CGFloat ht = [label frame].size.height;
     
@@ -89,9 +90,11 @@
 //    [label setFrame:NSMakeRect(posX, posY, wh, ht)];
     
     
-        int posX = w;
+        int posX = x;
         int posY = screen.size.height - y;
-        if(w < 50)
+    NSLog(@"screen.size.height :%f,y : %f",screen.size.height,y);
+    NSLog(@"posX :%f,posY : %f",posX,posY);
+        if(w < 100)
         {
             posX = x - w/2;
             posY = posY - ht;
@@ -103,9 +106,7 @@
             posY = posY - h/2 - ht/2;
         }
         [label setFrame:NSMakeRect(posX, posY, wh, ht)];
-    
-    
-    
+        NSLog(@"posX :%f,posY : %f",posX,posY);
    
     
 }

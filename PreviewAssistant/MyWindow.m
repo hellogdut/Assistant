@@ -13,15 +13,19 @@
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(unsigned int)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
     NSRect frame = NSScreen.mainScreen.frame;
+    
     self = [super initWithContentRect:frame styleMask:(NSBorderlessWindowMask) backing:NSBackingStoreBuffered defer:NO];
         if (self)
         {
             self.backgroundColor = NSColor.clearColor;
             self.level = CGShieldingWindowLevel();
-            [self setOpaque:NO];
+           [self setOpaque:NO];
             [self setHasShadow:NO];
             self.hidesOnDeactivate = NO;
             //[self setFrameTopLeftPoint:NSMakePoint(0,frame.size.height)];
+            [self setFrame:frame display:YES];
+            // remember to update
+            [self update];
         }
         return self;
     

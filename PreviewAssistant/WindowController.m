@@ -59,31 +59,26 @@ static NSObject *instance_ = nil;
      BQ BW BE BA BS BD BF
      NQ NW NE NA NS ND NP
      */
-//    singleWord = [[NSArray alloc] initWithObjects:@"M",@"P",@"J",@"K",@"V",@"L",@"Q",@"W",@"E",@"F",@"B",@"N",nil];
-//    NSArray* m = [[NSArray alloc] initWithObjects:@"MQ",@"MW",@"ME",@"MA",@"MF",@"MS",@"MD",@"MP",@"MG", nil];
-//    
-//    NSArray* p = [[NSArray alloc] initWithObjects:@"PQ",@"PW",@"PE",@"PA",@"PS",@"PD",@"PV",@"PF",nil];
-//    NSArray* j = [[NSArray alloc] initWithObjects:@"JQ",@"JW",@"JE",@"JA",@"JS",@"JD",@"JF",nil];
-//    NSArray* k = [[NSArray alloc] initWithObjects:@"KQ",@"KW",@"KE",@"KR",@"KA",@"KS",@"KD",@"KF",nil];
-//    NSArray* v = [[NSArray alloc] initWithObjects:@"VQ",@"VP",@"VJ",@"VK",@"VL",@"VH",@"VU",nil];
-//    NSArray* l = [[NSArray alloc] initWithObjects:@"LQ",@"LW",@"LE",@"LA",@"LS",@"LD",@"LF",nil];
-//    NSArray* q = [[NSArray alloc] initWithObjects:@"QH",@"QJ",@"QK",@"QL",@"QM",@"QP",nil];
-//    NSArray* w = [[NSArray alloc] initWithObjects:@"WH",@"WJ",@"WK",@"WL",@"WM",@"WP",nil];
-//    NSArray* e = [[NSArray alloc] initWithObjects:@"EH",@"EJ",@"EK",@"EL",@"EM",@"EP",nil];
-//    NSArray* f = [[NSArray alloc] initWithObjects:@"FQ",@"FJ",@"FK",@"FL",@"FP",@"FM",nil];
-//    NSArray* b = [[NSArray alloc] initWithObjects:@"BQ",@"BW",@"BE",@"BA",@"BS",@"BD",@"BF",nil];
-//    NSArray* n = [[NSArray alloc] initWithObjects:@"NQ",@"NW",@"NE",@"NA",@"NS",@"ND",@"NP",nil];
-//    NSArray* doubleWord = [[NSArray alloc] initWithObjects:m,p,j,k,v,l,q,w,e,f,b,n,nil];
-//    int count = 0;
-//    for(int i = 0;i < doubleWord.count;++i)
-//    {
-//        NSArray* arr = (NSArray*)[doubleWord objectAtIndex:i];
-//        count += [arr count];
-//    }
-//    NSLog(@"arr count :%d",count);
     
+    singleWord = [[NSArray alloc] initWithObjects:@" M ",@" P ",@" J ",@" K ",@" V ",@" L ",@" Q ",@" W ",@" E ",@" U ",@" F ",@" B ",@" N ",@" A ",@" S ",@" D ",nil];
+    NSArray* m = [[NSArray alloc] initWithObjects:@" MQ ",@" MW ",@" ME ",@" MA ",@" MF ",@" MS ",@" MD ",@" MP ",@" MG ", nil];
     
-    
+    NSArray* p = [[NSArray alloc] initWithObjects:@" PQ ",@" PW ",@" PE ",@" PA ",@" PS ",@" PD ",@" PV ",@" PF ",nil];
+    NSArray* j = [[NSArray alloc] initWithObjects:@" JQ ",@" JW ",@" JE ",@" JA ",@" JS ",@" JD ",@" JF ",nil];
+    NSArray* k = [[NSArray alloc] initWithObjects:@" KQ ",@" KW ",@" KE ",@" KR ",@" KA ",@" KS ",@" KD ",@" KF ",nil];
+    NSArray* v = [[NSArray alloc] initWithObjects:@" VQ ",@" VP ",@" VJ ",@" VK ",@" VL ",@" VH ",@" VU ",nil];
+    NSArray* l = [[NSArray alloc] initWithObjects:@" LQ ",@" LW ",@" LE ",@" LA ",@" LS ",@" LD ",@" LF ",nil];
+    NSArray* q = [[NSArray alloc] initWithObjects:@" QH ",@" QJ ",@" QK ",@" QL ",@" QM ",@" QP ",@" QB ",@" QN ",@" QV ",nil];
+    NSArray* w = [[NSArray alloc] initWithObjects:@" WH ",@" WJ ",@" WK ",@" WL ",@" WM ",@" WN ",@" WP ",@" WO ",nil];
+    NSArray* e = [[NSArray alloc] initWithObjects:@" EH ",@" EJ ",@" EK ",@" EL ",@" EM ",@" EP ",@" EN ",@" EB ",@" EV ",nil];
+    NSArray* u = [[NSArray alloc] initWithObjects:@" UQ ",@" UW ",@" UE ",@" UA ",@" US ",@" UD ",@" UF ",@" UV ",nil];
+    NSArray* f = [[NSArray alloc] initWithObjects:@" FQ ",@" FJ ",@" FK ",@" FL ",@" FP ",@" FM ",@" FN ",@" FB ",nil];
+    NSArray* b = [[NSArray alloc] initWithObjects:@" BQ ",@" BW ",@" BE ",@" BR ",@" BA ",@" BS ",@" BD ",@" BF ",nil];
+    NSArray* n = [[NSArray alloc] initWithObjects:@" NQ ",@" NW ",@" NE ",@" NR ",@" NA ",@" NS ",@" ND ",@" NP ",nil];
+    NSArray* a = [[NSArray alloc] initWithObjects:@" AH ",@" AJ ",@" AK ",@" AL ",@" AU ",@" AI ",@" AP ",@" AB ",@" AM ",@" AM ",nil];
+    NSArray* s = [[NSArray alloc] initWithObjects:@" SJ ",@" SK ",@" SL ",@" SH ",@" SU ",@" SO ",@" SP ",@" SB ",@" SM ",@" SN ",nil];
+    NSArray* d = [[NSArray alloc] initWithObjects:@" DJ ",@" DK ",@" DL ",@" DH ",@" DU ",@" DO ",@" DP ",@" DM ",@" DM ",@" DB ",nil];
+    doubleWord = [[NSArray alloc] initWithObjects:m,p,j,k,v,l,q,w,e,u,f,b,n,a,s,d,nil];
 }
 - (void) showLabels:(bool)first;
 {
@@ -109,24 +104,80 @@ static NSObject *instance_ = nil;
 - (void) generateWord
 {
 
-    NSArray * word = [[NSArray alloc]initWithObjects:
-                      @" E ",@" K ",@" D ",@" U ",@" S ",@" J ",@" L ",@" G ",@" I ",@" QK ",@" QP ",@" WH ",@" WJ ",@" WK ",@" WL ",@" WU ",@" WI ",@" WO ",@" WP ",@" PA ",@" PS ",@" PD ",@" PJ ",@" MA ",@" MQ ",@" MW ",@" ME ",@" VI ",@" VJ ",@" VK ",@" VP ",@" VL ",@" YA ",@" YS ",@" HQ ",@" HW ",@" HE ",@" HA ",@" NA ",@" NS ",@" ND ",@" NQ ",@" NW ",@" NE ",@" NF ",@" NG ",nil];
-
-    
-    int n = [word count];
-    for(int i = 0;i < array.count;++i)
+    NSLog(@"generaWord");
+//    NSArray * word = [[NSArray alloc]initWithObjects:
+//                      @" E ",@" K ",@" D ",@" U ",@" S ",@" J ",@" L ",@" G ",@" I ",@" QK ",@" QP ",@" WH ",@" WJ ",@" WK ",@" WL ",@" WU ",@" WI ",@" WO ",@" WP ",@" PA ",@" PS ",@" PD ",@" PJ ",@" MA ",@" MQ ",@" MW ",@" ME ",@" VI ",@" VJ ",@" VK ",@" VP ",@" VL ",@" YA ",@" YS ",@" HQ ",@" HW ",@" HE ",@" HA ",@" NA ",@" NS ",@" ND ",@" NQ ",@" NW ",@" NE ",@" NF ",@" NG ",nil];
+//
+//    
+//    int n = [word count];
+//    for(int i = 0;i < array.count;++i)
+//    {
+//        MyLabel* label = (MyLabel*)[array objectAtIndex:i];
+//        if(i < n)
+//        {
+//            label.s = [word objectAtIndex:i];
+//            label.updateLabel;
+//        }
+//        else
+//        {
+//            label.s = nil;
+//        }
+//    }
+    int labelCount = array.count;
+    int doubleCount = 0;
+    int i = -1;
+    int n = [singleWord count];
+    /* make the best use of single word */
+    if(n < labelCount)
     {
-        MyLabel* label = (MyLabel*)[array objectAtIndex:i];
-        if(i < n)
+        for(int j = 0;j < n;++j)
         {
-            label.s = [word objectAtIndex:i];
-            label.updateLabel;
-        }
-        else
-        {
-            label.s = nil;
+            i = j;
+            doubleCount += [[doubleWord objectAtIndex:j] count] + n - j - 1;
+            if(doubleCount >= labelCount) break;
+            else doubleCount -= (n -j - 1);
         }
     }
+    
+    int k = i + 1;
+    int l = 0;
+    int len = 0;
+
+    for(int j = 0;j < array.count;++j)
+    {
+        MyLabel* label = (MyLabel*)[array objectAtIndex:j];
+        // if not enough words,ignore
+        if(i != -1 && j >= doubleCount)
+        {
+            label.s = nil;
+            continue;
+        }
+        // engouh words,use single first
+        if(k < n)
+        {
+            label.s = [singleWord objectAtIndex:k];
+            label.updateLabel;
+            k++;
+            continue;
+        }
+        // have to use double words
+        NSArray* d = [doubleWord objectAtIndex:l];
+        int dl = [d count];
+        if(dl <= len)
+        {
+            l++;
+            len = 0;
+        }
+        d = [doubleWord objectAtIndex:l];
+        label.s = [d objectAtIndex:len];
+        label.updateLabel;
+        len++;
+        
+        
+    }
+    
+    
+    
 }
 //-(void) setActiveAppName
 //{
@@ -378,7 +429,7 @@ pid_t activeAppRef();
 {
     [self userCancel];
     [self unObserveApp];
-    [WindowController handleKeyPress:0x03];
+    //[WindowController handleKeyPress:0x03];
 }
 
 - (void) toInSertring
@@ -580,7 +631,7 @@ char KeyCodeToChar(CGKeyCode k);
     if(mode == Showing)
     {
         last_Key = k;
-        if(k == Key_Escape || c == 'f')
+        if(k == Key_Escape)
         {
             [self toReady];
             return true;
