@@ -396,12 +396,13 @@ NSPointerArray* getAppMainWindow()
     for(int i = 0;i < CFArrayGetCount(windows);++i)
     {
         AXUIElementRef window = (AXUIElementRef) CFArrayGetValueAtIndex(windows, i);
-        CFBooleanRef main;
-        AXUIElementCopyAttributeValue(window,kAXMainAttribute,(CFTypeRef *)&main);
-        if(main == kCFBooleanTrue)
-        {
-            [arr addPointer:window];
-        }
+        [arr addPointer:window];
+//        CFBooleanRef main;
+//        AXUIElementCopyAttributeValue(window,kAXMainAttribute,(CFTypeRef *)&main);
+//        if(main == kCFBooleanTrue)
+//        {
+//            [arr addPointer:window];
+//        }
 
         
 //        AXUIElementCopyAttributeValue(window,kAXMainAttribute,(CFTypeRef *)&main);
@@ -566,16 +567,6 @@ void enumWindowChildren(AXUIElementRef elem,NSMutableArray* arr)
         return;
     
     // 2. return close btn
-    if([info.role isEqualToString:@"AXButton"])
-    {
-        NSArray* ignore = [[NSArray alloc] initWithObjects:@"AXCloseButton",@"AXZoomButton",@"AXMinimizeButton",@"AXFullScreenButton",nil];
-        if([ignore containsObject:info.subRole])
-            return;
-        info.type = buttonType;
-        [arr addObject:info];
-        return;
-    }
-    
     // 3. non-inputable AXSearchField
     if(info.subRole != nil && [info.subRole isEqualToString:@"AXSearchField"])
     {
@@ -598,10 +589,73 @@ void enumWindowChildren(AXUIElementRef elem,NSMutableArray* arr)
         return;
     }
     
+    if([info.role isEqualToString:@"AXTextArea"])
+    {
+        info.type = input;
+        [arr addObject:info];
+        return;
+    }
     // 4. AXRow
     if([info.role isEqualToString:@"AXRow"])
     {
-        info.type = inputType;
+        error = AXUIElementCopyAttributeValue(elem, kAXChildrenAttribute, (CFTypeRef *)&cfchilds);
+        if(error != kAXErrorSuccess || cfchilds == nil)
+        {
+            info.type = input;
+            [arr addObject:info];
+            return;
+        }
+        AXUIElementRef btn_ = nil;
+        AXUIElementRef input_ = nil;
+        AXUIElementRef cell_ = nil;
+        UIElementInfo* info_ = nil;
+        for(int i = 0;i < CFArrayGetCount(cfchilds);++i)
+        {
+            AXUIElementRef child = (AXUIElementRef) CFArrayGetValueAtIndex( cfchilds, i);
+            info_ = getUIElementInfo(child);
+            if([info_.role isEqualToString:@"AXCell"])
+            {
+                cell_ = info_.ref;
+                break;
+            }
+            if([info_.role isEqualToString:@"AXButton"])
+            {
+                btn_ = info_.ref;
+            }
+            else if([info_.role isEqualToString:@"AXTextField"])
+            {
+                input_ = info_.ref;
+                break;
+            }
+        }
+
+        if(cell_ == nil && btn_ == nil && input_ == nil)
+        {
+            info.type = input;
+            [arr addObject:info];
+            return;
+        }
+        else if(cell_ == nil && input_ != nil)
+        {
+            info_.type = input;
+            [arr addObject:info_];
+            return;
+        }
+        else if(cell_ == nil && btn_ != nil)
+        {
+            info_.type = button;
+            [arr addObject:info_];
+            return;
+        }
+        
+    }
+    // btn
+    if([info.role isEqualToString:@"AXButton"])
+    {
+        NSArray* ignore = [[NSArray alloc] initWithObjects:@"AXCloseButton",@"AXZoomButton",@"AXMinimizeButton",@"AXFullScreenButton",nil];
+        if([ignore containsObject:info.subRole])
+            return;
+        info.type = buttonType;
         [arr addObject:info];
         return;
     }
@@ -618,13 +672,11 @@ void enumWindowChildren(AXUIElementRef elem,NSMutableArray* arr)
         info.type = buttonType;
         [arr addObject:info];
         return;
-
     }
     
     if([info.role isEqualToString:@"AXTable"] || [info.role isEqualToString:@"AXOutline"])
     {
         error = AXUIElementCopyAttributeValue(elem, kAXVisibleRowsAttribute, (CFTypeRef *)&cfchilds);
-        
     }
     else
     {

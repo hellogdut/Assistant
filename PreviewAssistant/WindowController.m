@@ -643,7 +643,7 @@ char KeyCodeToChar(CGKeyCode k);
                 if(duration < 10000)
                 {
                     [self toReady];
-                    return true;
+                    return false;
                 }
             }
         }

@@ -117,6 +117,8 @@
 - (void) updateColor
 {
     
+    if(s == nil)
+        return;
     NSString *str = s;
     
     NSMutableAttributedString *attrstr = [[NSMutableAttributedString alloc] initWithString:str];

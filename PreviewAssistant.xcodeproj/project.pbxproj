@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2B698D6D1AD441D10012F1DB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B698D5B1AD441D10012F1DB /* AppDelegate.m */; };
 		2B698D6E1AD441D10012F1DB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B698D5D1AD441D10012F1DB /* MainMenu.xib */; };
-		2B698D6F1AD441D10012F1DB /* globalkeypress.c in Sources */ = {isa = PBXBuildFile; fileRef = 2B698D5F1AD441D10012F1DB /* globalkeypress.c */; };
 		2B698D701AD441D10012F1DB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B698D601AD441D10012F1DB /* Images.xcassets */; };
 		2B698D711AD441D10012F1DB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B698D611AD441D10012F1DB /* Info.plist */; };
 		2B698D721AD441D10012F1DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B698D631AD441D10012F1DB /* main.m */; };
@@ -35,7 +34,6 @@
 		2B698D5B1AD441D10012F1DB /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2B698D5C1AD441D10012F1DB /* Assistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Assistant.h; sourceTree = "<group>"; };
 		2B698D5E1AD441D10012F1DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		2B698D5F1AD441D10012F1DB /* globalkeypress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = globalkeypress.c; sourceTree = "<group>"; };
 		2B698D601AD441D10012F1DB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2B698D611AD441D10012F1DB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B698D621AD441D10012F1DB /* KeyCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyCode.h; sourceTree = "<group>"; };
@@ -80,7 +78,6 @@
 				2B698D5B1AD441D10012F1DB /* AppDelegate.m */,
 				2B698D5C1AD441D10012F1DB /* Assistant.h */,
 				2B698D5D1AD441D10012F1DB /* MainMenu.xib */,
-				2B698D5F1AD441D10012F1DB /* globalkeypress.c */,
 				2B698D601AD441D10012F1DB /* Images.xcassets */,
 				2B698D611AD441D10012F1DB /* Info.plist */,
 				2B698D621AD441D10012F1DB /* KeyCode.h */,
@@ -238,7 +235,6 @@
 				2B698D741AD441D10012F1DB /* MyWindow.m in Sources */,
 				2B698D731AD441D10012F1DB /* MyLabel.m in Sources */,
 				2B698D6D1AD441D10012F1DB /* AppDelegate.m in Sources */,
-				2B698D6F1AD441D10012F1DB /* globalkeypress.c in Sources */,
 				2B698D751AD441D10012F1DB /* UIElementInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,6 +352,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = PreviewAssistant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -367,6 +364,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = PreviewAssistant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
